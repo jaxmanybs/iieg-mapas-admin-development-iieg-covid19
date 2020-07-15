@@ -1,0 +1,33 @@
+$color-grisText: #7C878E;
+$color-gris2: #E5E6E8;
+$color-amarillo: #e9bd3f;
+$color-azul: #EFF7FF;
+$color-azul2: #527BFF;
+$color-fondo: #303F51;
+// *{
+//     color: rgb(77, 235, 124);
+// }
+.map {
+    width: 50%;
+    height: 70vh;
+}
+
+.flex-container {
+    background-color: #ffffff;
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+.mat-card {
+    text-align: center;
+    img {
+        border-radius: 5px;
+        margin-top: -25px;
+    }
+}
+.mat-label{
+    margin-left: 2vh;
+}

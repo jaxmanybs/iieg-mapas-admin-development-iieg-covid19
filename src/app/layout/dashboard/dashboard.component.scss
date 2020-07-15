@@ -1,0 +1,122 @@
+$color-rose:        #CB3788;
+$color-gray2:        #778DA9;
+$color-gray3:      #1B263B;
+$color-gray1:  #E0E1DD;
+$color-blue:      #1AA6BE;
+*{
+  background: #f0f0f0;
+}
+.padre {
+  width:100%;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.padre2 {
+  width:100%;
+  margin: 0;
+  display: flex;
+}
+.padre3{
+  width:100%;
+  margin: 20;
+}
+.hijo21{
+  width: 50%;
+}
+.hijo22{
+  width: 50%;
+}
+.hijo1 {
+  width: 35%;
+  border: none;
+}
+.charts {
+  margin: 20;
+}
+.hijo2 {
+  width: 65%;
+  border: none;
+}
+@media screen and (max-width: 1320px) {
+  .hijo1 {
+    width: 50%;
+  }
+
+  .hijo2 {
+    width: 50%;
+    border: none;
+  }
+ 
+}
+@media screen and (max-width: 992px) {
+  .hijo1 {
+    width: 100%;
+  }
+  .charts {
+    width: 100%;
+  }
+  .hijo2 {
+    width: 100%;
+    border: none;
+    height: 50vh;
+  }
+ 
+}
+
+@media screen and (max-width: 950px) {
+  .hijo1 {
+    width: 100%;
+  }
+  .charts {
+    width: 100%;
+  }
+  .hijo2 {
+    width: 100%;
+    border: none;
+    height: 50vh;
+  }
+  .padre2{
+    width: 100%;
+  }
+  .padre3{
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 450px) {
+  .hijo1 {
+    width: 100%;
+  }
+  .charts {
+    width: 100%;
+  }
+
+  .hijo2 {
+    width: 100%;
+    border: none;
+    height: 60vh;
+  }
+  .padre2 {
+    width:100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hijo21{
+    width:50%;
+    width: 50vh;
+  }
+  .hijo22{
+    width:100%;
+    width: 50vh;
+  }
+  .padre3 {
+    width:100%;
+    align-items: center;
+  }
+  .charts {
+    width: 100%;
+  }
+}

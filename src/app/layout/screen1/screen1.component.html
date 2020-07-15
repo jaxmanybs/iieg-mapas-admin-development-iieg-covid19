@@ -1,0 +1,118 @@
+<div layout="row" layout-align="space-around center">
+  <div flex>Jalisco - </div>
+  <div flex>COVID-19</div>
+</div>
+<mat-card class="card-one mb-20">
+  <mat-card-header class="card-header">
+    <!-- <div mat-card-avatar class="header-image-one"></div> -->
+    <mat-card-title>IIEG</mat-card-title>
+    <mat-card-subtitle>Densidad Econòmica</mat-card-subtitle>
+  </mat-card-header>
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content class="card-content">
+    <mat-card>
+      <div class="flex-container">
+        <div class="flex-item">
+          <mat-label class="mat-label">Índice de Concentración Económica {{marcaSeleccionada}} %</mat-label>
+          <mat-label class="mat-label" ></mat-label>
+          <!-- <mat-slider
+              thumbLabel
+              class="example-margin"
+              [displayWith]="formatLabel"
+              min="0"
+              max="100"
+              [step]="step"
+              [tickInterval]="getSliderTickInterval()"
+              [(ngModel)]="value"
+              (change)="sliderChange($event.value)">
+          </mat-slider> -->
+          <!-- // ng5 Sliuder -->
+          <!-- <ng5-slider [(value)]="value" [options]="options"></ng5-slider> -->
+          <ng5-slider [(value)]="marcaSeleccionada"></ng5-slider>
+          <!-- <div class="custom-slider">
+            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
+          </div> -->
+        </div>
+        <div class="flex-item">
+          <mat-form-field>
+            <mat-label>Sectores</mat-label>
+            <mat-select [(value)]="marcas[0]">
+              <!-- <mat-option></mat-option> -->
+              <mat-option [value]="option" *ngFor="let option of marcas">{{ option }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex-item">
+          <label id="example-radio-group-label">Empleo</label>
+          <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          >
+          <mat-radio-button class="example-radio-button">
+              {{marcaSeleccionada}}
+          </mat-radio-button>
+          </mat-radio-group>
+          <!-- <div>Personas: {{favoriteSeason}} -->
+          <!-- </div> -->
+        </div>
+      </div>
+    </mat-card>
+  </mat-card-content>
+  <mat-card-actions class="card-action">
+    <button mat-flat-button color="primary">APLICAR</button>
+  </mat-card-actions>
+</mat-card>
+<br>
+<br>
+
+<!-- <mat-form-field>
+  <mat-label>Marca de coche</mat-label>
+  <mat-select  [value]="marcaSeleccionada" (selectionChange)="marcaSeleccionada = $event.value">
+    <mat-option *ngFor="let marca of marcas" [value]="marca">
+      {{ marca }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<br><br> -->
+<div class="flex-container">
+  <div class="flex-item">
+    <mat-form-field>
+      <mat-label>Marca de coche</mat-label>
+      <mat-select  [value]="marcaSeleccionada" (selectionChange)="marcaSeleccionada = $event.value">
+        <mat-option *ngFor="let marca of marcas" [value]="marca">
+          {{ marca }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <!-- <br><br> -->
+  </div>
+  <div class="flex-item">
+    <mat-form-field>
+      <mat-label>Marca de coche</mat-label>
+      <mat-select  [value]="marcaSeleccionada" (selectionChange)="marcaSeleccionada = $event.value">
+        <mat-option *ngFor="let marca of marcas" [value]="marca">
+          {{ marca }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <!-- <br><br> -->
+  </div>
+  <div class="flex-item">
+
+    <app-map1 [marca]="marcaSeleccionada"></app-map1>
+  </div>
+</div>
+
+<!-- <div style="display: block;">
+  <canvas baseChart 
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [legend]="barChartLegend"
+    [chartType]="barChartType">
+  </canvas>
+</div> -->
