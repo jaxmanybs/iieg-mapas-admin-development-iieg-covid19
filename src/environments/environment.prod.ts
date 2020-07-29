@@ -1,3 +1,17 @@
 export const environment = {
-  production: true
+  production: true,
+  api: '/api',
+  geoserverApi: "https://indices.jalisco.gob.mx/geoserver",
+  workspace: "iieg",
+  workspaceCovid: "covid19",
+  warehouse: "iieg",
+  outputJson: "outputFormat=application/json",
+  requestFeature: "request=GetFeature",
+  wfsService: "service=WFS",
+  version: "version=1.0.0",
+  activities: "den_activities",
+  firstActivities: "den_firstActivities",
+  subsectors: "den_subsectors",
+  typeNameFechas:"typeName=activosxmpio_f",
+  maxFeatures: "maxFeatures=1",
 };

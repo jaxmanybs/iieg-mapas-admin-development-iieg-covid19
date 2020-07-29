@@ -1,47 +1,51 @@
 <div class="padre">
-  <div class="hijo1">
-      <div class="charts" style="padding: 15px;">
-          <h2>Proyección de la población a mitad de año según sexo, 2020</h2>
-          <h3>Municipio: {{municipio}}</h3>
-          <h4>Población total proyectada {{pob_sex_tot_2020}}</h4>
-          <div class="padre2">
-            <div class="hijo21">
-              <div class="chart1">
-                <canvas baseChart
-                    [data]="pieChartData"
-                    [labels]="pieChartLabels"
-                    [chartType]="pieChartType"
-                    [options]="pieChartOptions"
-                    [colors]="pieChartColors"
-                    [legend]="pieChartLegend">
-                </canvas>
-              </div>
+    <div class="hijo1">
+        <div class="charts" style="padding: 15px;">
+            <h2>CASOS ACTIVOS POR MUNICIPIO</h2>
+            <h3>Total: {{active_tot_mun}}</h3>
+            <h3>Municipio: {{municipio}}</h3>
+            
+            <mat-divider class="navigation-divider"></mat-divider>
+            <div class="padre2">
+                <div class="hijo21">
+                    <h3>Mujeres, hombres y no especificado</h3>
+                    <div class="chart1">
+                        <canvas baseChart
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            [options]="pieChartOptions"
+                            [colors]="pieChartColors"
+                            [legend]="pieChartLegend">
+                        </canvas>
+                    </div>
+                </div>
+                <div class="hijo22">
+                    <h3>Activos a la fecha, 7 y 14 días atras</h3>
+                    <div class="chart3">
+                        <canvas baseChart 
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions"
+                        [colors]="lineChartColors"
+                        [plugins]="lineChartPlugins"
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType">
+                        </canvas>
+                    </div>
+                </div>
             </div>
-            <div class="hijo22">
-              <app-chartbar2020 [pob_sex_hm_2020]="pob_sex_hm_2020"></app-chartbar2020>
+            <mat-divider class="navigation-divider"></mat-divider>
+            <div class="padre3">
+                <div class="hijo31">
+                    <h3>Defunciones acumuladas por edades</h3>
+                    <app-chartbar2020 [dateParamMapDash]="dateParamMap"></app-chartbar2020>
+                </div>
             </div>
-          </div>
-          <h2>Proyecciones de la población a mitad de año por municipio según sexo, 2015-2030</h2>
-          <div class="padre3">
-            <div class="hijo31">
-              <div class="chart3">
-                <canvas baseChart 
-                  [datasets]="barChartData"
-                  [labels]="barChartLabels"
-                  [options]="barChartOptions"
-                  [colors]="barChartColors"
-                  [plugins]="barChartPlugins"
-                  [legend]="barChartLegend"
-                  [chartType]="barChartType">
-                </canvas>
-              </div>
-            </div>
-          </div>
-          <br>
-          Fuente: <a href="https://iieg.gob.mx/ns/wp-content/uploads/2019/09/IIEGProyecciones_MunSexo_Jal_2015-2030.xlsx" target="_blank">elaborado por el IIEG con base CONAPO; Proyecciones de la Población de los municipios de México 2015-2030 (actualización 2019).</a>
-      </div>
-  </div>
-  <div class="hijo2">
-      <app-map (desde_el_hijo)="recibirDatos($event)"></app-map>
-  </div>
+        </div>
+    </div>
+    <div class="hijo2">
+        <app-map (desde_el_hijo)="getDataMap2($event)"></app-map>
+    </div>
 </div>
+

@@ -16,7 +16,7 @@ const routes: Routes = [
             // },
 
             {
-                path: '',
+                path: ':date',
                 loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
                 // redirectTo: ''
             },

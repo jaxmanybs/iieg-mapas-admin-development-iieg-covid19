@@ -23,21 +23,27 @@ $color-blue:      #1AA6BE;
   margin: 20;
 }
 .hijo21{
-  width: 50%;
+  width: 40%;
+  text-align: center;
 }
 .hijo22{
-  width: 50%;
+  width: 60%;
+  text-align: center;
 }
 .hijo1 {
-  width: 35%;
+  width: 45%;
   border: none;
 }
 .charts {
   margin: 20;
 }
 .hijo2 {
-  width: 65%;
+  width: 55%;
   border: none;
+}
+.hijo31{
+  // width: 60%;
+  text-align: center;
 }
 @media screen and (max-width: 1320px) {
   .hijo1 {

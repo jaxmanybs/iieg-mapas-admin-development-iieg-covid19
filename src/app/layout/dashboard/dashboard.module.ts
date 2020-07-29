@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,19 +21,28 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule} from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { Chartbar2020Component } from './chartbar2020/chartbar2020.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { RequestService } from '../services/request.service';
 
 @NgModule({
     imports: [
+        LayoutModule,
         CommonModule,
         DashboardRoutingModule,
         FormsModule,
         MatRadioModule,
+        MatDividerModule,
         MatSelectModule,
         MatTabsModule,
         MatExpansionModule,
         MatGridListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
         StatModule,
         MatCardModule,
         MatTableModule,
@@ -47,6 +56,7 @@ import { Chartbar2020Component } from './chartbar2020/chartbar2020.component';
         Ng5SliderModule,
         FlexLayoutModule.withConfig({addFlexToParent: false})
     ],
-    declarations: [DashboardComponent, MapComponent, Chartbar2020Component]
+    declarations: [DashboardComponent, MapComponent, Chartbar2020Component],
+    providers:[DatePipe, RequestService]
 })
 export class DashboardModule {}

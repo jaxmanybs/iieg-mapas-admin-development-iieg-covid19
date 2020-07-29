@@ -1,8 +1,8 @@
-$color-rose:        #CB3788;
-$color-gray2:        #778DA9;
-$color-gray3:      #1B263B;
-$color-gray1:  #E0E1DD;
-$color-blue:      #1AA6BE;
+$color-rose:        #CE5690;
+$color-yellow:        #F6E4A9;
+$color-purple:      #604289;
+$color-blue1:  #B8E0EA;
+$color-blue2:      #00A6D9;
 :host {
     display: block;
     position: fixed;
@@ -18,25 +18,34 @@ $color-blue:      #1AA6BE;
 .topnav-icon {
     text-decoration: none;
     display: flex;
-    color: $color-gray3;
+    color: $color-purple;
 }
-.nav-brand{
-    color: $color-gray3;
-}
+// .nav-brand{
+//     width: 6rem;
+//     color: $color-purple;
+//     margin-left: 0;
+// }
 .mat-icon{
     // color: $color-gray3;
-    color: white;
+    color: $color-purple;
 }
-.logo{
+.logocovid19{
     margin-top: 10px;
+    margin-left: .8rem;
     // background: $color-rose;
-    width: 10em;
+    // width: 10em;
     height: 2.4em;
+}
+.logoiieg{
+    height: 5rem;
+}
+.logojaliscogob{
+    height: 2.6em;
 }
 
 .mat-toolbar.mat-primary {
     // background-color: $color-rose;
-    background: $color-gray2;
+    background: white;
     // background: $color-blue;
     // background: white;
 }
@@ -63,17 +72,31 @@ $color-blue:      #1AA6BE;
     .nav-brand {
         width: 100%;
     }
+    .logocovid19{
+        margin-left: 0rem;
+        height: 1.9em;
+    }
+    .logoiieg{
+        height: 2.8rem;
+    }
+    .logojaliscogob{
+        height: 1.8em;
+    }
 }
 @media screen and (max-width: 768px) {
     .hidden-sm {
         display: none;
     }
 }
-@media screen and (max-width: 280px) {
-    .logo{
-        margin-top: 10px;
-        // background: $color-rose;
-        width: 8em;
-        height: 2em;
+@media screen and (max-width: 360px) {
+    .logocovid19{
+        margin-left: 0rem;
+        height: 1.9em;
+    }
+    .logoiieg{
+        height: 2rem;
+    }
+    .logojaliscogob{
+        height: 1.2em;
     }
 }

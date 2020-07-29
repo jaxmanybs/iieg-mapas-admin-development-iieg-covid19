@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DateService } from './layout/services/date.service';
 import { AuthGuard } from './shared/guard/auth.guard';
 
 const routes: Routes = [
