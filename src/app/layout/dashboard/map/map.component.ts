@@ -37,6 +37,7 @@ export class MapComponent implements OnChanges {
 
   
   dateParam;
+  parametro
 
   ////// COVID-19 ///////
   map: any
@@ -140,6 +141,11 @@ export class MapComponent implements OnChanges {
     private _requestService: RequestService,
     private miDatePipe: DatePipe
     ) {
+
+      // this.createLayers()
+      
+      
+    }
     // console.log(this._requestService.getFirstActivities());
     // var requestData = [];
     // var request = this._requestService.getData()
@@ -179,7 +185,7 @@ export class MapComponent implements OnChanges {
 
     // this.jsonMap = { nombre: "Zapotiltic"}
 
-  }
+  // }
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -213,25 +219,159 @@ export class MapComponent implements OnChanges {
   ngOnInit() {
     
     this.createLayers()
-
     this._route.params.forEach(params =>{
-      
-      var date_covid = new Date(params.date);
-      
-      this.dateParam   = formatDate((date_covid.getMonth()+1).toString()+ '/'+(date_covid.getDate()).toString()+ '/'+date_covid.getFullYear().toString(),'yyyyMMdd', 'en-US');
- 
-      var viewparams = this.activosxmpio.getSource().getParams();
-      this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
-
-      viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-      this.activosxmpio.getSource().updateParams(viewparams);
-
-      this.desde_el_hijo.emit(this.dateParam);
-
+      // console.log('params.date-ngOnIniti()');
+      // console.log(typeof(params.date));
+              var date_covid = new Date(params.date);
+  
+        this.parametro = params.date
+  
+        // console.log('params.date ngOnIniti()');
+        // console.log(params.date);
+        
+        
+        this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
+        console.log('this.dateParam');
+        console.log(this.dateParam);
+        
+  
+        var viewparams = this.activosxmpio.getSource().getParams();
+        this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+  
+        viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+        this.activosxmpio.getSource().updateParams(viewparams);
+  
+        // this.desde_el_hijo.emit(this.dateParam);
     })
 
+      // if(typeof(params.date) === undefined){
+      //   console.log('if');
+
+
+      //   this._requestService.getDateNow().subscribe(data => {
+      //     data.features.forEach(feature => {
+
+      //       console.log('feature.properties.date_now');
+      //       console.log(feature.properties.date_now);
+            
+          
+      //       var re = /Z/gi;
+      //       var str = feature.properties.date_now;
+      //       var date_now_covid = str.replace(re, "");
+
+      //       re = /-/gi; 
+      //       str = date_now_covid;
+      //       date_now_covid = str.replace(re, "");
+
+      //       // this.dateParam = date_now_covid
+
+      //       console.log('date_now_covid');
+      //       console.log(date_now_covid);
+
+            // var date_covid = new Date(params.date);
+  
+            // this.parametro = params.date
+      
+            // console.log('params.date ngOnIniti()');
+            // console.log(params.date);
+            
+            
+            // this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
+            // console.log('this.dateParam');
+            // console.log(this.dateParam);
+            
+      
+            // var viewparams = this.activosxmpio.getSource().getParams();
+            // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+      
+            // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+            // this.activosxmpio.getSource().updateParams(viewparams);
+
+            // var viewparams = this.activosxmpio.getSource().getParams();
+            // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+      
+            // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+            // this.activosxmpio.getSource().updateParams(viewparams);
+            
+            
+            // this.maxDate = new Date(this.date_now_covid);
+            // this.date = new FormControl(this.maxDate);
+
+            // this.eventDatePicker = this.date_now_covid;
+            // this.ngOnInit()
+
+        //   })
+        // })
+        
+
+        
+      // }else{
+        
+      //   console.log('else');
+
+      //         console.log(typeof(params.date));
+        
+        
+        // var date_covid = new Date(params.date);
+  
+        // this.parametro = params.date
+  
+        // // console.log('params.date ngOnIniti()');
+        // // console.log(params.date);
+        
+        
+        // this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
+        // console.log('this.dateParam');
+        // console.log(this.dateParam);
+        
+  
+        // var viewparams = this.activosxmpio.getSource().getParams();
+        // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+  
+        // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+        // this.activosxmpio.getSource().updateParams(viewparams);
+  
+        // this.desde_el_hijo.emit(this.dateParam);
+  
+    //   }
+    // })
+
+    // this._route.params.forEach(params =>{
+      
+    //   var date_covid = new Date(params.date);
+
+    //   this.parametro = params.date
+
+    //   // console.log('params.date ngOnIniti()');
+    //   // console.log(params.date);
+      
+      
+    //   this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
+    //   console.log('this.dateParam');
+    //   console.log(this.dateParam);
+      
+ 
+    //   var viewparams = this.activosxmpio.getSource().getParams();
+    //   this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+
+    //   viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+    //   this.activosxmpio.getSource().updateParams(viewparams);
+
+    //   // this.desde_el_hijo.emit(this.dateParam);
+
+    // })
     this.createMap();
+
   }
+
+  // redirigir(){
+  //   // this._router.navigate(['/',"2020, 07, 29"]);
+  //   console.log('redirigir()');
+    
+  //   this.ngOnInit();
+    
+
+  // }
 
   enviarMensaje(mensajeVegeta) {
     this._requestService.enviar(mensajeVegeta);
@@ -300,97 +440,133 @@ export class MapComponent implements OnChanges {
     
     this.map.on('singleclick', (event) =>{
     
-      // this.callback(event);
+      this.callback(event);
       
     });
   }
 
   updateMap(viewparam){
-    console.log('updateMap()');
-    console.log('viewparams');
-    console.log(viewparam);
+    // console.log('updateMap()');
+    // console.log('viewparams');
+    // console.log(viewparam);
     
     
     var viewparams = this.activosxmpio.getSource().getParams();
     this.VIEW_PARAMS = "aaaammdd:" + viewparam;
-    console.log('this.VIEW_PARAMS');
-    console.log(this.VIEW_PARAMS);
+    // console.log('this.VIEW_PARAMS');
+    // console.log(this.VIEW_PARAMS);
     
     viewparams.VIEWPARAMS = this.VIEW_PARAMS;
     this.activosxmpio.getSource().updateParams(viewparams);
   }
 
   callback(evt){
-    
+
+    // console.log('callback(evt)');
+
     var viewResolution = /** @type {number} */ (this.view.getResolution());
-
-    viewparams = this.activosxmpio.getSource().getParams();
-    this.VIEW_PARAMS = "aaaammdd:"+this.dateParam;
-    viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-
-    this.activosxmpio.getSource().updateParams(viewparams);
-
-
     var url1 = this.activosxmpio.getSource().getFeatureInfoUrl(
-      evt.coordinate, viewResolution, 'EPSG:3857',
-      {'INFO_FORMAT': 'application/json'});
-      // console.log('url1');
-      // console.log(url1);
-      
+        evt.coordinate, viewResolution, 'EPSG:3857',
+        {'INFO_FORMAT': 'application/json'});
+        // console.log('url1');
+        // console.log(url1);
 
-      var viewparams = this.activosxmpio.getSource().getParams();
-      this.VIEW_PARAMS = "aaaammdd:" + (this.dateParam-7);
-      console.log(this.VIEW_PARAMS);
-      
-      viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+        fetch(url1).then(data => {
+          return data.json()
+        }).then(json => {
+
+          try {
+            // console.log('json.features[0].properties.date_now');
+            // console.log(json.features[0].properties);
+            
+            this.desde_el_hijo.emit(json.features[0].properties);
+            // this.desde_el_hijo.emit(json.features[0].properties);
+            
+          } catch (error) {
+          }
+
+        return null;
+        });
+
   
-      this.activosxmpio.getSource().updateParams(viewparams);
-  
-    var url2 = this.activosxmpio.getSource().getFeatureInfoUrl(
-      evt.coordinate, viewResolution, 'EPSG:3857',
-      {'INFO_FORMAT': 'application/json'});
-      // console.log('url2');
-      // console.log(url2);
-
-
-      viewparams = this.activosxmpio.getSource().getParams();
-      this.VIEW_PARAMS = "aaaammdd:" + (this.dateParam-14);
-      viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-
-      this.activosxmpio.getSource().updateParams(viewparams);
-
-    var url3 = this.activosxmpio.getSource().getFeatureInfoUrl(
-      evt.coordinate, viewResolution, 'EPSG:3857',
-      {'INFO_FORMAT': 'application/json'});
-      // console.log('url3');
-      // console.log(url3);
-
-      var urls = [url1, url2, url3]
-      viewparams = this.activosxmpio.getSource().getParams();
-      this.VIEW_PARAMS = "aaaammdd:"+"20200722";
-      viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-  
-      this.activosxmpio.getSource().updateParams(viewparams);
-  
-
-    this.desde_el_hijo.emit(urls)
     
-    fetch(url1).then(data => {
-      return data.json()
-    }).then(json => {
+    
 
-      try {
+
+    // this.desde_el_hijo.emit(urls)
+
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // var viewResolution = /** @type {number} */ (this.view.getResolution());
+
+    // viewparams = this.activosxmpio.getSource().getParams();
+    // this.VIEW_PARAMS = "aaaammdd:"+this.dateParam;
+    // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+
+    // this.activosxmpio.getSource().updateParams(viewparams);
+
+
+    // var url1 = this.activosxmpio.getSource().getFeatureInfoUrl(
+    //   evt.coordinate, viewResolution, 'EPSG:3857',
+    //   {'INFO_FORMAT': 'application/json'});
+    //   // console.log('url1');
+    //   // console.log(url1);
+      
+
+    //   var viewparams = this.activosxmpio.getSource().getParams();
+    //   this.VIEW_PARAMS = "aaaammdd:" + (this.dateParam-7);
+    //   // console.log(this.VIEW_PARAMS);
+      
+    //   viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+  
+    //   this.activosxmpio.getSource().updateParams(viewparams);
+  
+    // var url2 = this.activosxmpio.getSource().getFeatureInfoUrl(
+    //   evt.coordinate, viewResolution, 'EPSG:3857',
+    //   {'INFO_FORMAT': 'application/json'});
+    //   // console.log('url2');
+    //   // console.log(url2);
+
+
+    //   viewparams = this.activosxmpio.getSource().getParams();
+    //   this.VIEW_PARAMS = "aaaammdd:" + (this.dateParam-14);
+    //   viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+
+    //   this.activosxmpio.getSource().updateParams(viewparams);
+
+    // var url3 = this.activosxmpio.getSource().getFeatureInfoUrl(
+    //   evt.coordinate, viewResolution, 'EPSG:3857',
+    //   {'INFO_FORMAT': 'application/json'});
+    //   // console.log('url3');
+    //   // console.log(url3);
+
+    //   var urls = [url1, url2, url3]
+    //   viewparams = this.activosxmpio.getSource().getParams();
+    //   this.VIEW_PARAMS = "aaaammdd:"+"20200722";
+    //   viewparams.VIEWPARAMS = this.VIEW_PARAMS;
+  
+    //   this.activosxmpio.getSource().updateParams(viewparams);
+  
+
+    // this.desde_el_hijo.emit(urls)
+    
+    // fetch(url1).then(data => {
+    //   return data.json()
+    // }).then(json => {
+
+    //   try {
         // console.log('json.features[0].properties.date_now');
         // console.log(json.features[0].properties.date_now);
         
         // this.desde_el_hijo.emit(json.features[0].properties);
         // this.desde_el_hijo.emit(json.features[0].properties);
         
-      } catch (error) {
-      }
+    //   } catch (error) {
+    //   }
 
-    return null;
-    });
+    // return null;
+    // });
   }
 
   getDateNow(){

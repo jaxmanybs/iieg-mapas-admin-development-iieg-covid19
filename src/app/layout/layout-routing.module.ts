@@ -21,10 +21,6 @@ const routes: Routes = [
                 // redirectTo: ''
             },
             {
-                path: 'iieg',
-                loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-            },
-            {
                 path: 'screen1',
                 loadChildren: () => import('./screen1/screen1.module').then(m => m.Screen1Module)
             },

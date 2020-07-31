@@ -26,14 +26,20 @@ export class DashboardComponent implements OnInit {
     dataProperties7;
     dataProperties14;
     municipio: string;
-    active_tot_mun: number;
+    active_tot_mun;
+    date_covid;
+    date_covid7;
+    date_covid14;
 
     dateParamMap;
+    cvegeo;
     //para defacumedades charbar2020
     pob_sex_hm_2020 = [];
 
 
     mensajeVegeta: string;
+
+    parametro
 
     dataHombres;
     data1;
@@ -183,42 +189,225 @@ export class DashboardComponent implements OnInit {
         private _router: Router,
         private _requestService: RequestService,
         private miDatePipe: DatePipe) {
+            
+        // console.log('dashboard');
 
         this._route.params.forEach(params =>{
 
+            // this.getDataToLoadCharts(params);
+
+
+            this.parametro = params.date
+            console.log('this.parametro');
+            console.log(this.parametro);
+            
+
             var date_now = new Date(params.date);
 
-            var date_covid   = formatDate((date_now.getMonth()+1).toString()+ '/'+(date_now.getDate()).toString()+ '/'+date_now.getFullYear().toString(),'yyyyMMdd', 'en-US');
-            var date_covid7  = formatDate((date_now.getMonth()+1).toString()+ '/'+(date_now.getDate()-7).toString()+ '/'+date_now.getFullYear().toString(),'yyyyMMdd', 'en-US');
-            var date_covid14 = formatDate((date_now.getMonth()+1).toString()+ '/'+(date_now.getDate()-14).toString()+ '/'+date_now.getFullYear().toString(),'yyyyMMdd', 'en-US');
+            var date_now = new Date(params.date);
+            var date_now7 = new Date(params.date);
+            var date_now14 = new Date(params.date);
+    
+    
+            // date_now7.setDate(date_now.getDate())
+            date_now7.setDate(date_now.getDate()-7)
+            date_now14.setDate(date_now.getDate()-14)
+            // console.log('date_now');
+            // console.log(date_now);
+            // console.log(date_now7);
+            // console.log(date_now14);
             
-            this._requestService.getActives(date_covid).subscribe(data => {
-                data.features.forEach(feature => {
-                    this.dataProperties = feature.properties;
+    
+            this.date_covid   = formatDate(date_now,'yyyyMMdd', 'en-US');
+            this.date_covid7  = formatDate(date_now7,'yyyyMMdd', 'en-US');
+            this.date_covid14 = formatDate(date_now14,'yyyyMMdd', 'en-US');
+
+            this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14)
+
+            // this._requestService.getActives(this.date_covid).subscribe(data => {
+            //     data.features.forEach(feature => {
+            //         this.dataProperties = feature.properties;
                     
-                    this._requestService.getActives7(date_covid7).subscribe(data => {
-                        data.features.forEach(feature => {
-                            this.dataProperties7 = feature.properties;
+            //         this._requestService.getActives7(this.date_covid7).subscribe(data => {
+            //             data.features.forEach(feature => {
+            //                 this.dataProperties7 = feature.properties;
                             
-                            this._requestService.getActives14(date_covid14).subscribe(data => {
-                                data.features.forEach(feature => {
-                                    this.dataProperties14 = feature.properties;
+            //                 this._requestService.getActives14(this.date_covid14).subscribe(data => {
+            //                     data.features.forEach(feature => {
+            //                         this.dataProperties14 = feature.properties;
                                     
-                                    this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
-                                })
-                            })
-                        })
-                    })
-                })
-            })
+            //                         this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+            //                     })
+            //                 })
+            //             })
+            //         })
+            //     })
+            // })
 
         })
     }
 
     ngOnInit() {}
 
-    getDataMap2(dateParam){
-        this.dateParamMap = dateParam;
+    async getAllActives(date_covid, date_covid7, date_covid14){
+
+        console.log('date_covid, date_covid7, date_covid14');
+        console.log(date_covid, date_covid7, date_covid14);
+        
+        
+        await this._requestService.getActives(date_covid).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties = feature.properties;
+            })
+        })
+                
+        await this._requestService.getActives7(date_covid7).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties7 = feature.properties;
+                
+            })
+        })
+                
+        await this._requestService.getActives14(date_covid14).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties14 = feature.properties;
+                
+                this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+                
+            })
+        })
+        
+    }
+
+    getDataToLoadCharts(params){
+        // console.log('getDataToLoadCharts(params)');
+        
+        var date_now = new Date(params.date);
+        var date_now7 = new Date(params.date);
+        var date_now14 = new Date(params.date);
+
+
+        // date_now7.setDate(date_now.getDate())
+        date_now7.setDate(date_now.getDate()-7)
+        date_now14.setDate(date_now.getDate()-14)
+        // console.log('date_now');
+        // console.log(date_now);
+        // console.log(date_now7);
+        // console.log(date_now14);
+        
+
+        this.date_covid   = formatDate(date_now,'yyyyMMdd', 'en-US');
+        this.date_covid7  = formatDate(date_now7,'yyyyMMdd', 'en-US');
+        this.date_covid14 = formatDate(date_now14,'yyyyMMdd', 'en-US');
+        
+        // console.log(this.date_covid);
+        // console.log(this.date_covid7);
+        // console.log(this.date_covid14);
+        
+        this._requestService.getActives(this.date_covid).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties = feature.properties;
+                
+                this._requestService.getActives7(this.date_covid7).subscribe(data => {
+                    data.features.forEach(feature => {
+                        this.dataProperties7 = feature.properties;
+                        
+                        this._requestService.getActives14(this.date_covid14).subscribe(data => {
+                            data.features.forEach(feature => {
+                                this.dataProperties14 = feature.properties;                                
+                                
+                                this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    getDataMap2(params){
+        // this.dateParamMap = dateParam;
+        console.log('getDataMap2(params)');
+        console.log(params.date_now);
+
+        var re = /Z/gi;
+        var str = params.date_now;
+        var date_covid = str.replace(re, "");
+
+        re = /-/gi; 
+        str = date_covid;
+        date_covid = str.replace(re, ", ");
+
+        // console.log('date_covid');
+        // console.log(date_covid);
+        
+
+        var date_now = new Date(date_covid);
+        var date_now7 = new Date(date_covid);
+        var date_now14 = new Date(date_covid);
+
+        // console.log('date_now.getDate()');
+        // console.log(date_now.getDate());
+
+        date_now7.setDate(date_now.getDate()-7)
+        date_now14.setDate(date_now.getDate()-14)
+        // console.log('date_now');
+        // console.log(date_now);
+        // console.log(date_now7);
+        // console.log(date_now14);
+        
+
+        this.date_covid   = formatDate(date_now,'yyyyMMdd', 'en-US');
+        this.date_covid7  = formatDate(date_now7,'yyyyMMdd', 'en-US');
+        this.date_covid14 = formatDate(date_now14,'yyyyMMdd', 'en-US');
+
+        // console.log('this.date_covid');
+        // console.log(this.date_covid);
+        // console.log(this.date_covid7);
+        // console.log(this.date_covid14);
+        
+
+
+        // var re = /Z/gi;
+        // var str = params.date_now;
+        // this.date_covid = str.replace(re, "");
+
+        // re = /-/gi; 
+        // str = this.date_covid;
+        // this.date_covid = str.replace(re, "");
+
+        this.cvegeo = params.cvegeo
+        // console.log('cvegeo');
+        // console.log(this.cvegeo);
+
+
+        
+        // var viewparams = params.
+
+        this._requestService.getActivesMun(this.date_covid, this.cvegeo).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties = feature.properties;
+                // console.log('feature -- getDataMap2(params)');
+                // console.log(feature);
+                this._requestService.getActives7Mun(this.date_covid7, this.cvegeo).subscribe(data => {
+                    data.features.forEach(feature => {
+                        this.dataProperties7 = feature.properties;
+                        
+                        this._requestService.getActives14Mun(this.date_covid14, this.cvegeo).subscribe(data => {
+                            data.features.forEach(feature => {
+                                this.dataProperties14 = feature.properties;
+                                
+                                this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+                            })
+                        })
+                    })
+                })
+            })
+        })
+        // this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+        
+        // this.getDataToLoadCharts(params);
+        
     }
 
     enviarMensaje(mensajeGoku) {
@@ -230,10 +419,53 @@ export class DashboardComponent implements OnInit {
         subscribe(mensaje => this.mensajeVegeta = mensaje);
     }
 
-    loadCharts(dataProperties: any, dataProperties7, dataProperties14){
+    loadCharts(dataProperties, dataProperties7, dataProperties14){
 
+        // console.log('loadCharts(dataProperties, dataProperties7, dataProperties14)');
+        // console.log(dataProperties);
+        // console.log(dataProperties7);
+        // console.log(dataProperties14);
+
+
+        var date_covid_graf
+        var date_covid_graf7
+        var date_covid_graf14
+        
         this.municipio = dataProperties.nombre
         this.active_tot_mun = dataProperties.activos
+
+        var re = /Z/gi;
+        var str = dataProperties.date_now;
+        date_covid_graf = str.replace(re, "");
+
+        re = /-/gi; 
+        str = date_covid_graf;
+        date_covid_graf = str.replace(re, ", ");
+
+        var date = new Date(date_covid_graf);
+        var date7 = new Date(date_covid_graf);
+        var date14 = new Date(date_covid_graf);
+
+        date7.setDate(date14.getDate()-7)
+        date14.setDate(date14.getDate()-14)
+
+        // console.log('date');
+        // console.log(date);
+        // console.log(date7);
+        // console.log(date14);
+        
+
+        date_covid_graf = formatDate(date,'dd-MM-yyyy', 'en-US')
+        date_covid_graf7 = formatDate(date7,'dd-MM-yyyy', 'en-US')
+        date_covid_graf14 = formatDate(date14,'dd-MM-yyyy', 'en-US')
+
+        // console.log('date_covid_graf');
+        // console.log(date_covid_graf);
+        // console.log(date_covid_graf7);
+        // console.log(date_covid_graf14);
+        
+        this.lineChartLabels = [date_covid_graf14, date_covid_graf7, date_covid_graf];
+
         
         this.pieChartData = [this.dataProperties.mujeres, dataProperties.hombres, dataProperties.ne ];
 

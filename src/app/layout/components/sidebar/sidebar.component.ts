@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
     myData: string;
 
     // dates: string[] = ['14-07-2020', '13-07-2020', '12-07-2020', '11-07-2020'];
-    minDate = new Date(2020, 5, 18);
+    minDate = new Date(2020, 6, 2);
     // el Mx date se debe traer del fecth que se hace en el map mediante @Input o @Output
     date_now_covid;
     maxDate = new Date();
@@ -55,6 +55,8 @@ export class SidebarComponent implements OnInit {
         private _requestService: RequestService,
         private miDatePipe: DatePipe
     ){
+        
+        // console.log('sidebar');
         this._requestService.getDateNow().subscribe(data => {
             data.features.forEach(feature => {
             

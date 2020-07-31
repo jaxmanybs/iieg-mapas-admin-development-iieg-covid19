@@ -15,6 +15,8 @@ export class TopnavComponent implements OnInit {
     mensaje: string = 'Navbar!';
 
     constructor(private _requestService: RequestService, public router: Router, private translate: TranslateService) {
+        
+        // console.log('topnav');
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();

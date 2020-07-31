@@ -14,10 +14,12 @@ export class Chartbar2020Component implements OnChanges  {
 
     // @Input() pob_sex_hm_2020: string;
     @Input() dateParamMapDash: string;
+    @Input() cvegeoDash: string;
     tot_def
 
     
     dateParamMap;
+    date_covid_defacum
 
 
     // grafica 2 bar ng2
@@ -56,9 +58,12 @@ export class Chartbar2020Component implements OnChanges  {
             this._route.params.forEach(params => {
       
                 var date_now = new Date(params.date);
-                var date_covid_defacum   = formatDate((date_now.getMonth()+1).toString()+ '/'+(date_now.getDate()).toString()+ '/'+date_now.getFullYear().toString(),'yyyyMMdd', 'en-US');
+                this.date_covid_defacum   = formatDate(date_now,'yyyyMMdd', 'en-US');
       
-                this._requestService.defAcumEdades(date_covid_defacum).subscribe(data => {
+                // console.log('this.cvegeoDash');
+                // console.log(this.cvegeoDash);
+                
+                this._requestService.defAcumEdades1(this.date_covid_defacum, this.cvegeoDash).subscribe(data => {
                     data.features.forEach(feature => {
                         this.graficaChartsJs(feature.properties)
                     })
@@ -66,7 +71,18 @@ export class Chartbar2020Component implements OnChanges  {
             })
         }
 
-    ngOnChanges(changes: SimpleChanges): void {}
+    ngOnChanges(changes: SimpleChanges): void {
+
+  
+            // console.log('this.cvegeoDash');
+            // console.log(this.cvegeoDash);
+            
+            this._requestService.defAcumEdades1(this.date_covid_defacum, this.cvegeoDash).subscribe(data => {
+                data.features.forEach(feature => {
+                    this.graficaChartsJs(feature.properties)
+                })
+            })
+    }
 
 
     graficaChartsJs(json){

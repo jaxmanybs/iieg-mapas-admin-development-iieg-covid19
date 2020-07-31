@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     onIIEG() {
         // localStorage.setItem('isLoggedin', 'true');
         // this.router.navigate(['/dashboard']);
-        this.router.navigate(['/']);
+        this.router.navigate(['/iieg']);
     }
 
     onCovid() {
