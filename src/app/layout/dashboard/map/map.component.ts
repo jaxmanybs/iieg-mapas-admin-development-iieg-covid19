@@ -231,8 +231,8 @@ export class MapComponent implements OnChanges {
         
         
         this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
-        console.log('this.dateParam');
-        console.log(this.dateParam);
+        // console.log('this.dateParam');
+        // console.log(this.dateParam);
         
   
         var viewparams = this.activosxmpio.getSource().getParams();

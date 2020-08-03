@@ -59,6 +59,10 @@ export class SidebarComponent implements OnInit {
         // console.log('sidebar');
         this._requestService.getDateNow().subscribe(data => {
             data.features.forEach(feature => {
+
+            // console.log('feature.cvegeo');
+            // console.log(feature.properties.cvegeo);
+                
             
             var re = /Z/gi;
             var str = feature.properties.date_now;

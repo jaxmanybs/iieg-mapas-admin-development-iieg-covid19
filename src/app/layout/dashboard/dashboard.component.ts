@@ -198,8 +198,8 @@ export class DashboardComponent implements OnInit {
 
 
             this.parametro = params.date
-            console.log('this.parametro');
-            console.log(this.parametro);
+            // console.log('this.parametro');
+            // console.log(this.parametro);
             
 
             var date_now = new Date(params.date);
@@ -251,8 +251,8 @@ export class DashboardComponent implements OnInit {
 
     async getAllActives(date_covid, date_covid7, date_covid14){
 
-        console.log('date_covid, date_covid7, date_covid14');
-        console.log(date_covid, date_covid7, date_covid14);
+        // console.log('date_covid, date_covid7, date_covid14');
+        // console.log(date_covid, date_covid7, date_covid14);
         
         
         await this._requestService.getActives(date_covid).subscribe(data => {
@@ -327,8 +327,8 @@ export class DashboardComponent implements OnInit {
 
     getDataMap2(params){
         // this.dateParamMap = dateParam;
-        console.log('getDataMap2(params)');
-        console.log(params.date_now);
+        // console.log('getDataMap2(params)');
+        // console.log(params);
 
         var re = /Z/gi;
         var str = params.date_now;

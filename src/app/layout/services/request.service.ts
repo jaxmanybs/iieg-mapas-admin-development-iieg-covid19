@@ -145,8 +145,8 @@ export class RequestService {
     let getActivesMun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
     + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
     + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams + cqlfilter}`
-    console.log('getActivesMun');
-    console.log(getActivesMun);
+    // console.log('getActivesMun');
+    // console.log(getActivesMun);
     
     return this.http.get<any>(getActivesMun)
   }

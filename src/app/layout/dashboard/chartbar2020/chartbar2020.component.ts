@@ -55,6 +55,7 @@ export class Chartbar2020Component implements OnChanges  {
     constructor(
         private _route: ActivatedRoute,
         private _requestService: RequestService ) {
+
             this._route.params.forEach(params => {
       
                 var date_now = new Date(params.date);
@@ -62,8 +63,10 @@ export class Chartbar2020Component implements OnChanges  {
       
                 // console.log('this.cvegeoDash');
                 // console.log(this.cvegeoDash);
+
+
                 
-                this._requestService.defAcumEdades1(this.date_covid_defacum, this.cvegeoDash).subscribe(data => {
+                this._requestService.defAcumEdades(this.date_covid_defacum).subscribe(data => {
                     data.features.forEach(feature => {
                         this.graficaChartsJs(feature.properties)
                     })
