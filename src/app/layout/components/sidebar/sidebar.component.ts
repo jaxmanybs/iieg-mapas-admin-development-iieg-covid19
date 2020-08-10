@@ -45,8 +45,18 @@ export class SidebarComponent implements OnInit {
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 
         this.eventDatePicker = (event.target.value.getFullYear().toString() + ', ' + (event.target.value.getMonth() + 1).toString() + ', ' + event.target.value.getDate().toString())
-        this._router.navigate(['/', this.eventDatePicker]);
-    
+        
+        // console.log('this._requestService.getCvegeo()');
+        // console.log(this._requestService.getCvegeo());
+        
+        this._router.navigate([this._router.url.split('/2')[0],this.eventDatePicker+'-'+this._router.url.split('-')[1]]);
+        // this._router.navigate([this._router.url.split('/2')[0],this.eventDatePicker]);
+        // console.log(this._router.url.split('/2')[0],this.eventDatePicker);
+        // console.log('this._router.url');
+        // console.log(this._router.url.split('/2')[0],this.eventDatePicker,this._router.url.split('-')[1]);
+        // this._router.url.split('/2')[0]
+        // console.log(this._router.url.split('/2')[0]);
+
     }
 
     constructor(
@@ -55,8 +65,9 @@ export class SidebarComponent implements OnInit {
         private _requestService: RequestService,
         private miDatePipe: DatePipe
     ){
-        
-        // console.log('sidebar');
+        // _router.events.subscribe((url:any) => console.log(url.snapshot.url[0].path));
+        // console.log('_router.url');
+        // console.log(this._router.url.split('/2')[0]);
         this._requestService.getDateNow().subscribe(data => {
             data.features.forEach(feature => {
 
@@ -76,7 +87,15 @@ export class SidebarComponent implements OnInit {
             this.date = new FormControl(this.maxDate);
 
             this.eventDatePicker = this.date_now_covid;
-            this._router.navigate(['/', this.eventDatePicker]);
+            // this._router.navigate(['/', this.eventDatePicker]);
+            this._router.navigate(['/activos', this.eventDatePicker+'-act']);
+
+            // console.log('feature.cvegeo2');
+            // console.log(feature.properties.cvegeo);
+
+            // console.log('this._router.url');
+            // console.log(this._router.url);
+            
 
             })
         })

@@ -10,22 +10,22 @@ const routes: Routes = [
         path: '',
         component: LayoutComponent,
         children: [
-            // {
-            //     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-
-            // },
-
             {
-                path: ':date',
+                path: 'activos/:date',
                 loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-                // redirectTo: ''
+
             },
             {
-                path: 'screen1',
+                path: 'activo/:date',
+                loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+
+            },
+            {
+                path: 'Acumulados/:date',
                 loadChildren: () => import('./screen1/screen1.module').then(m => m.Screen1Module)
             },
             {
-                path: 'screen2',
+                path: 'radar/:date',
                 component: Screen2Component
             }
         ]

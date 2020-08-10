@@ -9,26 +9,29 @@
         </mat-form-field>
       </div>
       <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item >
-          <mat-icon class="sidenav-icon">whatshot</mat-icon> {{ 'Casos activos' | translate }}
+      <a mat-list-item  [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-act']">
+        <div><img class="iconovid19" src="./assets/images/covid19_activos.svg" alt=""></div>{{ 'Activos' | translate }}
       </a>
       <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen1']">
-        <mat-icon class="sidenav-icon">whatshot</mat-icon> {{ 'Acumulados xmpio' | translate }}
+      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-acu']">
+        <div><img class="iconovid19" src="./assets/images/covid19_acumulados.svg" alt=""></div>{{ 'Acumulados' | translate }}
       </a>
-      <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen1']">
+      <!-- <mat-divider class="navigation-divider"></mat-divider>
+      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/radar/', eventDatePicker]">
         <mat-icon class="sidenav-icon">public</mat-icon> {{ 'Radar Jalisco' | translate }}
+      </a> -->
+      <mat-divider class="navigation-divider"></mat-divider>
+      <!-- <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-def']">
+        <div><img class="iconovid19" style="margin-left: 0.3rem;" src="./assets/images/covid19_defunciones.svg" alt=""></div> &nbsp; {{ 'Defunciones' | translate }}
       </a>
       <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen1']">
-        <mat-icon class="sidenav-icon">warning</mat-icon> {{ 'Defunciones' | translate }}
+      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-nac']">
+        <div><img class="iconovid19" src="./assets/images/covid19_activos_nac.svg" alt=""></div> {{ 'Activos nacional' | translate }}
       </a>
-      <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen1']">
-        <mat-icon class="sidenav-icon">add_alert</mat-icon> {{ 'Activos nacional' | translate }}
-      </a>
-      <mat-divider class="navigation-divider"></mat-divider>
+      <mat-divider class="navigation-divider"></mat-divider> -->
+
+      <!-- <img class="img-legend" src="https://indices.jalisco.gob.mx/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=covid19:activosxmpiograf&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true;fontColor:0x00A6D9;fontSize:14;bgColor:0xB8E0EA;dpi:120" alt=""> -->
+
 <!-- 
         <p>parametro</p>
         {{parametro}}

@@ -26,9 +26,22 @@ $color-blue2:      #00A6D9;
             }
             // color: white;
             
-            color: $color-purple;
+            color: $color-blue2;
             display: block;
         }
+        .iconovid19{
+            // margin-top: 10px;
+            // margin-left: .8rem;
+            // background: $color-rose;
+            // width: 10em;
+            margin-right: 0.5em;
+            height: 2em;
+            // margin-left:auto;
+        }
+        img {
+            background: $color-blue1;
+        }
+
     }
 }
 .flex-item{

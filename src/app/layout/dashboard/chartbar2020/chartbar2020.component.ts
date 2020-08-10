@@ -15,11 +15,13 @@ export class Chartbar2020Component implements OnChanges  {
     // @Input() pob_sex_hm_2020: string;
     @Input() dateParamMapDash: string;
     @Input() cvegeoDash: string;
-    tot_def
+    @Input() layerDash: string;
+    tot_edades
+    
 
     
     dateParamMap;
-    date_covid_defacum
+    date_covid_acum
 
 
     // grafica 2 bar ng2
@@ -47,28 +49,39 @@ export class Chartbar2020Component implements OnChanges  {
     public barChartData: ChartDataSets[] = [{}];
     public barChartColors = [
         {
-        backgroundColor: ['#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9','#778DA9'],
+        backgroundColor: ['#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9'],
         }
     ];
     // grafica 2 bar ng2
 
     constructor(
         private _route: ActivatedRoute,
+        private _router: Router,
         private _requestService: RequestService ) {
 
+            // 
+
             this._route.params.forEach(params => {
-      
-                var date_now = new Date(params.date);
-                this.date_covid_defacum   = formatDate(date_now,'yyyyMMdd', 'en-US');
-      
+                
+                // console.log('constructor');
                 // console.log('this.cvegeoDash');
                 // console.log(this.cvegeoDash);
 
+                var date_now = new Date(params.date.split('-')[0]);
+                var layer = this._router.url.split('-')[1];
 
                 
-                this._requestService.defAcumEdades(this.date_covid_defacum).subscribe(data => {
+                this.date_covid_acum   = formatDate(date_now,'yyyyMMdd', 'en-US');
+      
+                // console.log('this.cvegeoDash');
+                // console.log(this.cvegeoDash);
+ 
+                this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
                     data.features.forEach(feature => {
+                        
+                        // console.log(feature.properties);
                         this.graficaChartsJs(feature.properties)
+                        
                     })
                 })
             })
@@ -76,22 +89,64 @@ export class Chartbar2020Component implements OnChanges  {
 
     ngOnChanges(changes: SimpleChanges): void {
 
-  
-            // console.log('this.cvegeoDash');
-            // console.log(this.cvegeoDash);
+
+        // console.log('this.cvegeoDash');
+        // console.log(this.cvegeoDash);
+        // console.log(this.layer);
+
+        var layer = this._router.url.split('-')[1];
+        // console.log('layer');
+        // console.log(layer);
+        
+
+
+        // switch(layer) {
+        //     case 'act': { 
+        //         console.log('Activos');
+        //         layer = 'activosacumedades'
+        //         break;  
+        //       } 
+        //     case 'acu': { 
+        //         console.log('Acumulados');
+        //         layer = 'postivosacumedades'
+        //         break; 
+        //     }
+        //     case 'def': {
+        //         console.log('Defunciones');
+
+        //         break; 
+        //     } 
+        //     case 'nac': {
+        //         console.log('Activos Nacionales');
+
+        //         break; 
+        //     }
+        //     default: { 
+        //         console.log('Activos x Municipio');
+
+        //         break; 
+        //     } 
             
-            this._requestService.defAcumEdades1(this.date_covid_defacum, this.cvegeoDash).subscribe(data => {
-                data.features.forEach(feature => {
-                    this.graficaChartsJs(feature.properties)
-                })
+        // }
+
+        this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
+            data.features.forEach(feature => {
+                
+                // console.log(feature.properties);
+                this.graficaChartsJs(feature.properties)
+                
             })
+        })
     }
 
 
     graficaChartsJs(json){
-        this.tot_def = json.defunciones;
+        this.tot_edades = json.activos;
+        // console.log('json');
+        // console.log(json);
+        
         this.barChartData  = [
-            { data: [json.menor10, json.e1019, json.e2029, json.e3039, json.e4049, json.e5059, json.e6069, json.e7079, json.e8089, json.e9099, json.emayor100], label : 'Total defunciones' }
+            { data: [json.menor10, json.e1019, json.e2029, json.e3039, json.e4049, json.e5059, json.e6069, json.e7079, json.e8089, json.e9099, json.emayor100], label : 'Total acumulados' }
         ];
     }
 

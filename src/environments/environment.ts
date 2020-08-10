@@ -11,6 +11,7 @@ export const environment = {
   version: "version=1.0.0",
   activosxmpiograf: "activosxmpiograf",
   activosxmpiograf_7_14: "activosxmpiograf_7_14",
+  activosacumedades: "activosacumedades",
   defacumedades: "defacumedades",
   typeNameFechas:"typeName=activosxmpiograf",
   maxFeatures: "maxFeatures=1",

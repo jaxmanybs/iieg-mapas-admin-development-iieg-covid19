@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
     dataProperties7;
     dataProperties14;
     municipio: string;
-    active_tot_mun;
+    tot_cases_mun;
     date_covid;
     date_covid7;
     date_covid14;
@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
     mensajeVegeta: string;
 
     parametro
+    layerNow
 
     dataHombres;
     data1;
@@ -194,83 +195,168 @@ export class DashboardComponent implements OnInit {
 
         this._route.params.forEach(params =>{
 
-            // this.getDataToLoadCharts(params);
+            // console.log('this.getDataToLoadCharts(params)');
 
-
-            this.parametro = params.date
-            // console.log('this.parametro');
-            // console.log(this.parametro);
+            // var layer = this._router.url.split('-')[1];
+            // console.log('nac');
+            // console.log("params");
+            // console.log(params);
+            var layer = this._router.url.split('-')[1];
+            // console.log(layer);
             
+            // console.log(params.date.split('-')[0]);
+            // console.log(typeof(layer));
 
-            var date_now = new Date(params.date);
+            // this.cvegeo = '14121'
+            ///llmar la cvegeo
+            // cvegeo = peticion
+            // console.log('this._requestService.getCvegeo()');
+            // console.log(this._requestService.getCvegeo());
+            this.cvegeo = this._requestService.getCvegeo();
 
-            var date_now = new Date(params.date);
-            var date_now7 = new Date(params.date);
-            var date_now14 = new Date(params.date);
+
+            // this.parametro = params.date.split('-')[0]
+            // console.log("params.date.split('-')[0]");
+            // console.log('-'+params.date.split('-')[0]+'-');
+
+            var date_now = new Date(params.date.split('-')[0]);
+
+            var date_now = new Date(params.date.split('-')[0]);
+            var date_now7 = new Date(params.date.split('-')[0]);
+            var date_now14 = new Date(params.date.split('-')[0]);
     
-    
-            // date_now7.setDate(date_now.getDate())
             date_now7.setDate(date_now.getDate()-7)
             date_now14.setDate(date_now.getDate()-14)
-            // console.log('date_now');
-            // console.log(date_now);
-            // console.log(date_now7);
-            // console.log(date_now14);
             
-    
             this.date_covid   = formatDate(date_now,'yyyyMMdd', 'en-US');
             this.date_covid7  = formatDate(date_now7,'yyyyMMdd', 'en-US');
             this.date_covid14 = formatDate(date_now14,'yyyyMMdd', 'en-US');
 
-            this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14)
+            // console.log(this.date_covid);
+            // console.log(this.date_covid7);
+            // console.log(this.date_covid14);
+            
+            switch(layer) {
+                case 'act': { 
+                    // console.log('Graf - Activos');
+                    var layer = 'activosxmpiograf'
+                    this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14, this.cvegeo)
 
-            // this._requestService.getActives(this.date_covid).subscribe(data => {
-            //     data.features.forEach(feature => {
-            //         this.dataProperties = feature.properties;
-                    
-            //         this._requestService.getActives7(this.date_covid7).subscribe(data => {
-            //             data.features.forEach(feature => {
-            //                 this.dataProperties7 = feature.properties;
-                            
-            //                 this._requestService.getActives14(this.date_covid14).subscribe(data => {
-            //                     data.features.forEach(feature => {
-            //                         this.dataProperties14 = feature.properties;
-                                    
-            //                         this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
-            //                     })
-            //                 })
-            //             })
-            //         })
-            //     })
-            // })
+
+                    break;  
+                }
+                case 'acu': { 
+                    // console.log('Graf - Acumulados');
+                    var layer = 'positivosacumxmpio'
+                    this.getAllAcum(layer, this.date_covid, this.date_covid7, this.date_covid14, this.cvegeo)
+
+
+                    break;  
+                }
+                case 'def': { 
+                    // console.log('Graf - Defunciones');
+                    this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14, this.cvegeo)
+
+
+                    break;  
+                }
+                case 'nac': { 
+                    // console.log('Graf - Nacional');
+                    this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14, this.cvegeo)
+
+
+                    break;  
+                }
+                default: { 
+                    // console.log('Default');
+
+                    break; 
+                } 
+            } 
+            // this.getAllActives(this.date_covid, this.date_covid7, this.date_covid14, this.cvegeo)
 
         })
     }
 
     ngOnInit() {}
 
-    async getAllActives(date_covid, date_covid7, date_covid14){
+    async getAllAcum(layer, date_covid, date_covid7, date_covid14, cvegeo){ //layers, viewparams2, cvegeo
 
-        // console.log('date_covid, date_covid7, date_covid14');
-        // console.log(date_covid, date_covid7, date_covid14);
+        
+        // console.log('layer');
+        // console.log(layer);
+
+        // console.log(date_covid);
+        // console.log(date_covid7);
+        // console.log(date_covid14);
+
+        // console.log(cvegeo);
         
         
-        await this._requestService.getActives(date_covid).subscribe(data => {
+
+        
+        await this._requestService.getAcumMun(layer, date_covid, cvegeo).subscribe(data => {  
             data.features.forEach(feature => {
                 this.dataProperties = feature.properties;
+                // console.log(feature.properties);
             })
         })
-                
-        await this._requestService.getActives7(date_covid7).subscribe(data => {
+        await this._requestService.getAcumMun(layer, date_covid7, cvegeo).subscribe(data => {  
             data.features.forEach(feature => {
                 this.dataProperties7 = feature.properties;
+                // console.log(feature.properties);
+            })
+        })
+        await this._requestService.getAcumMun(layer, date_covid14, cvegeo).subscribe(data => {  
+            data.features.forEach(feature => {
+                this.dataProperties14 = feature.properties;
+                // console.log(feature.properties);
+
+                this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+            })
+        })
+                
+        // await this._requestService.getAcumMun7(layer, date_covid7, cvegeo).subscribe(data => {
+        //     data.features.forEach(feature => {
+        //         this.dataProperties7 = feature.properties;
+        //         console.log(this.dataProperties7);
+                
+        //     })
+        // })
+                
+        // await this._requestService.getAcumMun(layer, date_covid14, cvegeo).subscribe(data => {
+        //     data.features.forEach(feature => {
+        //         this.dataProperties14 = feature.properties;
+        //         console.log(this.dataProperties14);
+                
+        //         this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
+                
+        //     })
+        // })
+        
+    }
+
+    async getAllActives(date_covid, date_covid7, date_covid14, cvegeo){
+
+        await this._requestService.getActives(date_covid, cvegeo).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties = feature.properties;
+                // console.log(this.dataProperties);
                 
             })
         })
                 
-        await this._requestService.getActives14(date_covid14).subscribe(data => {
+        await this._requestService.getActives7(date_covid7, cvegeo).subscribe(data => {
+            data.features.forEach(feature => {
+                this.dataProperties7 = feature.properties;
+                // console.log(this.dataProperties7);
+            })
+        })
+                
+        await this._requestService.getActives14(date_covid14, cvegeo).subscribe(data => {
             data.features.forEach(feature => {
                 this.dataProperties14 = feature.properties;
+                // console.log(this.dataProperties14);
                 
                 this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
                 
@@ -279,62 +365,19 @@ export class DashboardComponent implements OnInit {
         
     }
 
-    getDataToLoadCharts(params){
-        // console.log('getDataToLoadCharts(params)');
-        
-        var date_now = new Date(params.date);
-        var date_now7 = new Date(params.date);
-        var date_now14 = new Date(params.date);
-
-
-        // date_now7.setDate(date_now.getDate())
-        date_now7.setDate(date_now.getDate()-7)
-        date_now14.setDate(date_now.getDate()-14)
-        // console.log('date_now');
-        // console.log(date_now);
-        // console.log(date_now7);
-        // console.log(date_now14);
-        
-
-        this.date_covid   = formatDate(date_now,'yyyyMMdd', 'en-US');
-        this.date_covid7  = formatDate(date_now7,'yyyyMMdd', 'en-US');
-        this.date_covid14 = formatDate(date_now14,'yyyyMMdd', 'en-US');
-        
-        // console.log(this.date_covid);
-        // console.log(this.date_covid7);
-        // console.log(this.date_covid14);
-        
-        this._requestService.getActives(this.date_covid).subscribe(data => {
-            data.features.forEach(feature => {
-                this.dataProperties = feature.properties;
-                
-                this._requestService.getActives7(this.date_covid7).subscribe(data => {
-                    data.features.forEach(feature => {
-                        this.dataProperties7 = feature.properties;
-                        
-                        this._requestService.getActives14(this.date_covid14).subscribe(data => {
-                            data.features.forEach(feature => {
-                                this.dataProperties14 = feature.properties;                                
-                                
-                                this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
-                            })
-                        })
-                    })
-                })
-            })
-        })
-    }
-
-    getDataMap2(params){
+    getDataMap(params){
         // this.dateParamMap = dateParam;
-        // console.log('getDataMap2(params)');
+        // console.log('getDataMap(params)');
         // console.log(params);
+        // console.log(params.viewparams);
+        // console.log(params[0]);
+        // console.log(params[1]);
 
         var re = /Z/gi;
         var str = params.date_now;
         var date_covid = str.replace(re, "");
 
-        re = /-/gi; 
+        re = /-/gi;
         str = date_covid;
         date_covid = str.replace(re, ", ");
 
@@ -377,23 +420,26 @@ export class DashboardComponent implements OnInit {
         // this.date_covid = str.replace(re, "");
 
         this.cvegeo = params.cvegeo
+
         // console.log('cvegeo');
         // console.log(this.cvegeo);
 
 
         
         // var viewparams = params.
+        // console.log(params.layers);
+        
 
-        this._requestService.getActivesMun(this.date_covid, this.cvegeo).subscribe(data => {
+        this._requestService.getActivesMun(params.layers, params.viewparams, this.cvegeo).subscribe(data => {
             data.features.forEach(feature => {
                 this.dataProperties = feature.properties;
-                // console.log('feature -- getDataMap2(params)');
+                // console.log('feature -- getDataMap(params)');
                 // console.log(feature);
-                this._requestService.getActives7Mun(this.date_covid7, this.cvegeo).subscribe(data => {
+                this._requestService.getActives7Mun(params.layers, this.date_covid7, this.cvegeo).subscribe(data => {
                     data.features.forEach(feature => {
                         this.dataProperties7 = feature.properties;
                         
-                        this._requestService.getActives14Mun(this.date_covid14, this.cvegeo).subscribe(data => {
+                        this._requestService.getActives14Mun(params.layers, this.date_covid14, this.cvegeo).subscribe(data => {
                             data.features.forEach(feature => {
                                 this.dataProperties14 = feature.properties;
                                 
@@ -407,6 +453,14 @@ export class DashboardComponent implements OnInit {
         // this.loadCharts(this.dataProperties, this.dataProperties7, this.dataProperties14);
         
         // this.getDataToLoadCharts(params);
+        
+    }
+
+    getDataMap2(layer){
+        // console.log('getDataMap2(layer)');
+        this.layerNow = layer;
+        // console.log(this.layerNow);
+
         
     }
 
@@ -432,7 +486,7 @@ export class DashboardComponent implements OnInit {
         var date_covid_graf14
         
         this.municipio = dataProperties.nombre
-        this.active_tot_mun = dataProperties.activos
+        this.tot_cases_mun = dataProperties.activos
 
         var re = /Z/gi;
         var str = dataProperties.date_now;
@@ -459,6 +513,9 @@ export class DashboardComponent implements OnInit {
         date_covid_graf7 = formatDate(date7,'dd-MM-yyyy', 'en-US')
         date_covid_graf14 = formatDate(date14,'dd-MM-yyyy', 'en-US')
 
+        // console.log('dataProperties7.mujeres');
+        // console.log(dataProperties7.mujeres);
+
         // console.log('date_covid_graf');
         // console.log(date_covid_graf);
         // console.log(date_covid_graf7);
@@ -468,6 +525,7 @@ export class DashboardComponent implements OnInit {
 
         
         this.pieChartData = [this.dataProperties.mujeres, dataProperties.hombres, dataProperties.ne ];
+        this.lineChartData  = [];
 
         this.lineChartData  = [
             { data: [dataProperties14.mujeres, dataProperties7.mujeres, dataProperties.mujeres], label: 'Mujeres' },

@@ -86,7 +86,7 @@ export class Map1Component implements OnChanges {
     console.log(this.params);
     
 
-    this.source.updateParams(this.params);
+    // this.source.updateParams(this.params);
     
   }
 

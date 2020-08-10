@@ -21,6 +21,8 @@ import 'ol/ol.css';
 import 'rxjs/add/operator/map';
 import { Logger } from '@syncfusion/ej2-angular-grids';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { equal } from 'assert';
+import { equals } from 'ol/extent';
 // import { url } from 'inspector';
 
 declare var ol;
@@ -41,6 +43,7 @@ export class MapComponent implements OnChanges {
 
   ////// COVID-19 ///////
   map: any
+  cvegeo
   // VIEW_PARAMS = 'aaaammdd:';
   // VIEW_PARAMS = "aaaammdd:20200719"
   VIEW_PARAMS;
@@ -49,6 +52,8 @@ export class MapComponent implements OnChanges {
   date_7;
   date_14;
   @Output() desde_el_hijo = new EventEmitter();
+  @Output() desde_el_hijo2 = new EventEmitter();
+  @Output() desde_el_hijo_map = new EventEmitter();
 
 
   public date_now_covid_service;
@@ -73,16 +78,23 @@ export class MapComponent implements OnChanges {
   myLayers = [];
   view
   overlay
-  
+  // actualizar capa
+  source;
+  params;
+
   
   myStyles = [
-    `${environment.workspaceCovid}:activosxmpio`,
+    `${environment.workspaceCovid}:activosxmpio_iieg`,
+    `${environment.workspaceCovid}:positivosacumxmpio`,
     `${environment.workspaceCovid}:defsxmpio`,
+    `${environment.workspaceCovid}:activosxmpionac`
   ]
 
   geoserverLayers = [
     "activosxmpiograf",
-    "defuncionesxmpio"
+    "positivosacumxmpio",
+    "defuncionesxmpio",
+    "mat2019_2020"
   ]
 
   osmLayer: any
@@ -135,12 +147,19 @@ export class MapComponent implements OnChanges {
   mensaje: string = 'Map!';
   myData: boolean = false;
 
+  layer
+
+  show:boolean = true
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
     private _requestService: RequestService,
     private miDatePipe: DatePipe
     ) {
+
+      
+    // console.log('constructor');
 
       // this.createLayers()
       
@@ -189,6 +208,40 @@ export class MapComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
+    if(changes.layer.currentValue  != changes.layer.previousValue){
+        const nuevaLayer = changes.layer.currentValue;
+
+        // console.log('nuevaLayer');
+        // console.log(nuevaLayer);
+        
+      }
+
+   
+    // console.log('ngOnChanges');
+    // console.log('this.layer');
+    // console.log(this.layer);
+    
+    switch(this.layer) { 
+      case '/activos': { 
+        //statements;
+        console.log('Activos');
+        // this.params = {LAYERS: "vjal:vmConfirmados", TILED: false}
+        break; 
+      } 
+      case '/activosnac': { 
+        //statements;
+        console.log('Activos Nacionales');
+        // this.params = {LAYERS: "vjal:vmMunicipios", TILED: false}
+        break; 
+      }
+      default: { 
+        //statements;
+        
+        break; 
+      } 
+    } 
+    
+    
     // console.log('this._requestService.getData() app-map');
     // this.date_now_covid_service = this._requestService.getData();
     // console.log('this.date_now_covid_service');
@@ -217,14 +270,37 @@ export class MapComponent implements OnChanges {
   }
 
   ngOnInit() {
+
+    // console.log('ngOninit');
     
+  
     this.createLayers()
+    this.createMap();
     this._route.params.forEach(params =>{
       // console.log('params.date-ngOnIniti()');
-      // console.log(typeof(params.date));
-              var date_covid = new Date(params.date);
+        //   console.log(typeof(params.date));
+        //   console.log(params.date);
+        //   console.log(params.date.split('-')[0]);
+
+        //   console.log('this._router.url');
+        //   console.log(this._router.url);
+        //   console.log("this._router.url.split('-')[0]");
+        //   console.log(this._router.url.split('-')[0]);
+        //   console.log("this._router.url.split('-')[1]");
+        //   console.log(this._router.url.split('-')[1]);
+        //   console.log(this._router.url);
+
+        var layer = this._router.url.split('-')[1];
+        //   console.log('nac');
+        //   console.log(layer);
+        //   console.log(typeof(layer));
+      
+
+        var date_covid = new Date(params.date.split('-')[0]);
   
-        this.parametro = params.date
+        this.parametro = params.date.split('-')[0]
+
+
   
         // console.log('params.date ngOnIniti()');
         // console.log(params.date);
@@ -237,141 +313,120 @@ export class MapComponent implements OnChanges {
   
         var viewparams = this.activosxmpio.getSource().getParams();
         this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
+
+        // console.log('viewparams');
+        // console.log(viewparams);
+
+        
+        // this.activosxmpio.getSource().clear();
+        // if(nac == 'acu'){
+        //     console.log('if-acu');
+            
+            
+        //     this.layer = "/acumulados"
+        // }else if(nac == 'def'){
+        //     console.log('if-def');
+            
+            
+        //     this.layer = "/defunciones"
+        // }else if(nac == 'nac'){
+        //     console.log('if-nac');
+            
+            
+        //     this.layer = "/activosnac"
+        // }else{
+            
+        //     console.log('else');
+        //     this.layer = "/activos"
+        // }
+        
   
         viewparams.VIEWPARAMS = this.VIEW_PARAMS;
         this.activosxmpio.getSource().updateParams(viewparams);
-  
-        // this.desde_el_hijo.emit(this.dateParam);
+
+        // console.log('ngOnChanges');
+        // console.log('this.layer');
+        // console.log(this.layer);
+        
+        switch(layer) {
+            case 'act': { 
+                // console.log('Activos x Municipio');
+                this.activosxmpio.getSource().updateParams({LAYERS: this.geoserverLayers[0], STYLES: this.myStyles[0]});
+                var view = new View({
+                center: ol.proj.fromLonLat([-103.4564,20.664]),
+                zoom: 7.8
+                });
+                this.map.setView(view)
+                this.desde_el_hijo_map.emit('act');
+                break;  
+              } 
+            case 'acu': { 
+                // console.log('Acumulados');
+                this.activosxmpio.getSource().updateParams({LAYERS: this.geoserverLayers[1], STYLES:this.myStyles[0]});
+                var view = new View({
+                center: ol.proj.fromLonLat([-103.4564,20.664]),
+                zoom: 7.8
+                });
+                this.map.setView(view)
+                this.desde_el_hijo_map.emit('acu');
+                break; 
+            } 
+            case 'def': {
+                // console.log('Defunciones');
+                this.activosxmpio.getSource().updateParams({LAYERS: this.geoserverLayers[2], STYLES:this.myStyles[2]});
+                var view = new View({
+                center: ol.proj.fromLonLat([-103.4564,20.664]),
+                zoom: 7.8
+                });
+                this.map.setView(view)
+                this.desde_el_hijo_map.emit('def');
+                break; 
+            } 
+            case 'nac': {
+                // console.log('Activos Nacionales');
+                this.activosxmpio.getSource().updateParams({LAYERS: this.geoserverLayers[3], STYLES:'sej:mat2019_2020'});
+                var view = new View({
+                    center: ol.proj.fromLonLat([-103.3564,20.564]),
+                    zoom: 8
+                });
+                this.map.setView(view)
+                this.desde_el_hijo_map.emit('nac');
+                break; 
+            }
+            default: { 
+                // console.log('Activos x Municipio');
+                this.activosxmpio.getSource().updateParams({LAYERS: this.geoserverLayers[0], STYLES: this.myStyles[0]});
+                var view = new View({
+                center: ol.proj.fromLonLat([-103.4564,20.664]),
+                zoom: 7.8
+                });
+                this.map.setView(view)
+                this.desde_el_hijo_map.emit('act');
+                break; 
+            } 
+        } 
     })
-
-      // if(typeof(params.date) === undefined){
-      //   console.log('if');
-
-
-      //   this._requestService.getDateNow().subscribe(data => {
-      //     data.features.forEach(feature => {
-
-      //       console.log('feature.properties.date_now');
-      //       console.log(feature.properties.date_now);
-            
-          
-      //       var re = /Z/gi;
-      //       var str = feature.properties.date_now;
-      //       var date_now_covid = str.replace(re, "");
-
-      //       re = /-/gi; 
-      //       str = date_now_covid;
-      //       date_now_covid = str.replace(re, "");
-
-      //       // this.dateParam = date_now_covid
-
-      //       console.log('date_now_covid');
-      //       console.log(date_now_covid);
-
-            // var date_covid = new Date(params.date);
-  
-            // this.parametro = params.date
-      
-            // console.log('params.date ngOnIniti()');
-            // console.log(params.date);
-            
-            
-            // this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
-            // console.log('this.dateParam');
-            // console.log(this.dateParam);
-            
-      
-            // var viewparams = this.activosxmpio.getSource().getParams();
-            // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
-      
-            // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-            // this.activosxmpio.getSource().updateParams(viewparams);
-
-            // var viewparams = this.activosxmpio.getSource().getParams();
-            // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
-      
-            // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-            // this.activosxmpio.getSource().updateParams(viewparams);
-            
-            
-            // this.maxDate = new Date(this.date_now_covid);
-            // this.date = new FormControl(this.maxDate);
-
-            // this.eventDatePicker = this.date_now_covid;
-            // this.ngOnInit()
-
-        //   })
-        // })
-        
-
-        
-      // }else{
-        
-      //   console.log('else');
-
-      //         console.log(typeof(params.date));
-        
-        
-        // var date_covid = new Date(params.date);
-  
-        // this.parametro = params.date
-  
-        // // console.log('params.date ngOnIniti()');
-        // // console.log(params.date);
-        
-        
-        // this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
-        // console.log('this.dateParam');
-        // console.log(this.dateParam);
-        
-  
-        // var viewparams = this.activosxmpio.getSource().getParams();
-        // this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
-  
-        // viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-        // this.activosxmpio.getSource().updateParams(viewparams);
-  
-        // this.desde_el_hijo.emit(this.dateParam);
-  
-    //   }
-    // })
-
-    // this._route.params.forEach(params =>{
-      
-    //   var date_covid = new Date(params.date);
-
-    //   this.parametro = params.date
-
-    //   // console.log('params.date ngOnIniti()');
-    //   // console.log(params.date);
-      
-      
-    //   this.dateParam   = formatDate(date_covid,'yyyyMMdd', 'en-US');
-    //   console.log('this.dateParam');
-    //   console.log(this.dateParam);
-      
- 
-    //   var viewparams = this.activosxmpio.getSource().getParams();
-    //   this.VIEW_PARAMS = "aaaammdd:" + this.dateParam;
-
-    //   viewparams.VIEWPARAMS = this.VIEW_PARAMS;
-    //   this.activosxmpio.getSource().updateParams(viewparams);
-
-    //   // this.desde_el_hijo.emit(this.dateParam);
-
-    // })
-    this.createMap();
 
   }
 
-  // redirigir(){
-  //   // this._router.navigate(['/',"2020, 07, 29"]);
-  //   console.log('redirigir()');
-    
-  //   this.ngOnInit();
-    
+  init(){
+    this.createLayers()
+    this.createMap()
+  }
 
-  // }
+  resetChildForm(){
+    // console.log('this.resetChildForm');
+    
+    this.show = false;
+ 
+    setTimeout(() => {
+       this.show = true
+       this.createMap();
+       
+       
+    // console.log('this.show');
+     }, 100);
+ }
 
   enviarMensaje(mensajeVegeta) {
     this._requestService.enviar(mensajeVegeta);
@@ -419,6 +474,8 @@ export class MapComponent implements OnChanges {
       // zoom: 7.5,
       center: ol.proj.fromLonLat([-103.3564,20.564]),
       zoom: 9
+    // center: ol.proj.fromLonLat([-103.4564,20.664]),
+    // zoom: 7.8
     });
   }
 
@@ -434,10 +491,19 @@ export class MapComponent implements OnChanges {
         this.osmLayer,
         this.activosxmpio,
       ],
-      target: document.getElementById('map'),
-      view: this.view
+      target: document.getElementById('map')
     });
-    
+
+    this.map.setView(this.view)
+
+    this.map.addControl(new ol.control.ZoomSlider());
+
+    this.source = this.activosxmpio.getSource()
+    this.params = this.source.getParams();
+    // console.log('source and params');
+    // console.log(this.source);
+    // console.log(this.params);
+
     this.map.on('singleclick', (event) =>{
     
       this.callback(event);
@@ -463,24 +529,39 @@ export class MapComponent implements OnChanges {
   callback(evt){
 
     // console.log('callback(evt)');
+    // this.layer = "/activosnac"
 
     var viewResolution = /** @type {number} */ (this.view.getResolution());
     var url1 = this.activosxmpio.getSource().getFeatureInfoUrl(
         evt.coordinate, viewResolution, 'EPSG:3857',
         {'INFO_FORMAT': 'application/json'});
+        // console.log('callback(evt)');
         // console.log('url1');
         // console.log(url1);
+        // console.log('this.activosxmpio.getSource().getParams()');
+        // console.log(this.activosxmpio.getSource().getParams());
+
 
         fetch(url1).then(data => {
           return data.json()
         }).then(json => {
 
           try {
-            // console.log('json.features[0].properties.date_now');
+            // console.log('json.features[0].properties');
             // console.log(json.features[0].properties);
+            // this.cvegeo = json.features[0].properties.cvegeo;
+            // console.log(json.features[0].properties.cvegeo);
+
+            json.features[0].properties["layers"] = this.activosxmpio.getSource().getParams().LAYERS;
+            json.features[0].properties["viewparams"] = this.activosxmpio.getSource().getParams().VIEWPARAMS;
+
+            
+            this._requestService.updateCvegeo(json.features[0].properties.cvegeo)
+            this._requestService.updateLayers(json.features[0].properties.layers)
             
             this.desde_el_hijo.emit(json.features[0].properties);
-            // this.desde_el_hijo.emit(json.features[0].properties);
+            // this.desde_el_hijo.emit(datos_map);
+            // this.desde_el_hijo2.emit(this.activosxmpio.getSource().getParams());
             
           } catch (error) {
           }
