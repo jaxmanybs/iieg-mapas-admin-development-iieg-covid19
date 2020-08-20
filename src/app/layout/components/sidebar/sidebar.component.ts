@@ -1,21 +1,24 @@
-import { Component, EventEmitter, LOCALE_ID, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, LOCALE_ID, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { RequestService } from '../../services/request.service';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router'
+import { MatDialog } from '@angular/material/dialog';
 
 import { take } from 'rxjs/operators';
-
+import { DialogNotaMetodComponent } from '../dialog-nota-metod/dialog-nota-metod.component';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     providers: [ { provide: LOCALE_ID, useValue: 'en-GB' } ],
 
 })
 export class SidebarComponent implements OnInit {
+
     public showMenu: string;
 
     public mensajeVegeta: string;
@@ -26,9 +29,7 @@ export class SidebarComponent implements OnInit {
     
     myData: string;
 
-    // dates: string[] = ['14-07-2020', '13-07-2020', '12-07-2020', '11-07-2020'];
-    minDate = new Date(2020, 6, 2);
-    // el Mx date se debe traer del fecth que se hace en el map mediante @Input o @Output
+    minDate = new Date(2020, 3, 26);
     date_now_covid;
     maxDate = new Date();
     date_calendar = new Date();
@@ -45,36 +46,19 @@ export class SidebarComponent implements OnInit {
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 
         this.eventDatePicker = (event.target.value.getFullYear().toString() + ', ' + (event.target.value.getMonth() + 1).toString() + ', ' + event.target.value.getDate().toString())
-        
-        // console.log('this._requestService.getCvegeo()');
-        // console.log(this._requestService.getCvegeo());
-        
         this._router.navigate([this._router.url.split('/2')[0],this.eventDatePicker+'-'+this._router.url.split('-')[1]]);
-        // this._router.navigate([this._router.url.split('/2')[0],this.eventDatePicker]);
-        // console.log(this._router.url.split('/2')[0],this.eventDatePicker);
-        // console.log('this._router.url');
-        // console.log(this._router.url.split('/2')[0],this.eventDatePicker,this._router.url.split('-')[1]);
-        // this._router.url.split('/2')[0]
-        // console.log(this._router.url.split('/2')[0]);
-
     }
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _requestService: RequestService,
-        private miDatePipe: DatePipe
+        private miDatePipe: DatePipe,
+        public dialog: MatDialog
     ){
-        // _router.events.subscribe((url:any) => console.log(url.snapshot.url[0].path));
-        // console.log('_router.url');
-        // console.log(this._router.url.split('/2')[0]);
         this._requestService.getDateNow().subscribe(data => {
             data.features.forEach(feature => {
 
-            // console.log('feature.cvegeo');
-            // console.log(feature.properties.cvegeo);
-                
-            
             var re = /Z/gi;
             var str = feature.properties.date_now;
             this.date_now_covid = str.replace(re, "");
@@ -87,15 +71,7 @@ export class SidebarComponent implements OnInit {
             this.date = new FormControl(this.maxDate);
 
             this.eventDatePicker = this.date_now_covid;
-            // this._router.navigate(['/', this.eventDatePicker]);
             this._router.navigate(['/activos', this.eventDatePicker+'-act']);
-
-            // console.log('feature.cvegeo2');
-            // console.log(feature.properties.cvegeo);
-
-            // console.log('this._router.url');
-            // console.log(this._router.url);
-            
 
             })
         })
@@ -105,7 +81,9 @@ export class SidebarComponent implements OnInit {
         this.showMenu = '';
     }
 
-
+    openDialog() {
+        this.dialog.open(DialogNotaMetodComponent);
+    }
 ///////////////// no se utiliza hasta ahorita /////////////////////////////////////////////////////////////////////////////////
     enviarMensaje(mensajeGoku) {
         this._requestService.enviar(mensajeGoku);

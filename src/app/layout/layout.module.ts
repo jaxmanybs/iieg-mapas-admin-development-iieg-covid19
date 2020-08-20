@@ -18,18 +18,26 @@ import { Screen2Component } from './screen2/screen2.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DialogNotaMetodComponent } from './components/dialog-nota-metod/dialog-nota-metod.component';
 
 @NgModule({
+    entryComponents: [DialogNotaMetodComponent],
     imports: [
         CommonModule,
         FormsModule,
         LayoutRoutingModule,
         MatToolbarModule,
+        MatTooltipModule,
         MatButtonModule,
+        MatButtonToggleModule,
         MatSelectModule,
         MatDatepickerModule,
+        MatDialogModule,
         MatNativeDateModule,
         MatSidenavModule,
         MatIconModule,
@@ -39,7 +47,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         ReactiveFormsModule,
         TranslateModule
     ],
-    declarations: [Screen2Component, LayoutComponent, NavComponent, TopnavComponent, SidebarComponent],
+    declarations: [Screen2Component, LayoutComponent, NavComponent, TopnavComponent, SidebarComponent, DialogNotaMetodComponent],
     exports:[SidebarComponent, LayoutComponent]
 })
 export class LayoutModule {  }

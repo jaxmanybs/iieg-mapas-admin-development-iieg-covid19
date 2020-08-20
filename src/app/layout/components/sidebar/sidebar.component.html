@@ -1,38 +1,85 @@
 <div id="sidebar">
     <mat-nav-list>
-      <div class="flex-item">
-        <mat-form-field appearance="fill">
-          <mat-label>Seleccionar fecha</mat-label>
-          <input format='dd-MM-yyyy' matInput [matDatepicker]="myDatePicker" [min]="minDate" [max]="maxDate" [formControl]="date" (dateInput)="addEvent('input', $event)" disable>
-          <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
-          <mat-datepicker #myDatePicker disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item  [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-act']">
-        <div><img class="iconovid19" src="./assets/images/covid19_activos.svg" alt=""></div>{{ 'Activos' | translate }}
-      </a>
-      <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-acu']">
-        <div><img class="iconovid19" src="./assets/images/covid19_acumulados.svg" alt=""></div>{{ 'Acumulados' | translate }}
-      </a>
-      <!-- <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/radar/', eventDatePicker]">
-        <mat-icon class="sidenav-icon">public</mat-icon> {{ 'Radar Jalisco' | translate }}
-      </a> -->
-      <mat-divider class="navigation-divider"></mat-divider>
-      <!-- <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-def']">
-        <div><img class="iconovid19" style="margin-left: 0.3rem;" src="./assets/images/covid19_defunciones.svg" alt=""></div> &nbsp; {{ 'Defunciones' | translate }}
-      </a>
-      <mat-divider class="navigation-divider"></mat-divider>
-      <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-nac']">
-        <div><img class="iconovid19" src="./assets/images/covid19_activos_nac.svg" alt=""></div> {{ 'Activos nacional' | translate }}
-      </a>
-      <mat-divider class="navigation-divider"></mat-divider> -->
+        <div class="flex-item">
+            <mat-form-field appearance="fill">
+            <mat-label>Seleccionar fecha</mat-label>
+            <input format='dd-MM-yyyy' matInput [matDatepicker]="myDatePicker" [min]="minDate" [max]="maxDate" [formControl]="date" (dateInput)="addEvent('input', $event)" disable>
+            <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #myDatePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <mat-divider class="navigation-divider"></mat-divider>
+        <button mat-list-item  [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-act']" #tooltip="matTooltip"
+            matTooltip="Activos por municipio del estado de Jalisco"
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="'below'"
+            matTooltipHideDelay="0"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+            class="btn_covid19">
+            <div><img class="iconovid19" src="./assets/images/covid19_activos.svg" alt=""></div>{{ 'Activos' | translate }}
+        </button>
+        <mat-divider class="navigation-divider"></mat-divider>
+        <button mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-acu']" #tooltip="matTooltip"
+            matTooltip="Acumulados por municipio del estado de Jalisco"
+            matTooltipClass="tooltip2"
+            [matTooltipPosition]="'below'"
+            matTooltipHideDelay="0"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+            class="btn_covid19">
+            <div><img class="iconovid19" src="./assets/images/covid19_acumulados.svg" alt=""></div>{{ 'Acumulados' | translate }}
+        </button>
+        <!-- <mat-divider class="navigation-divider"></mat-divider>
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/radar/', eventDatePicker]">
+            <mat-icon class="sidenav-icon">public</mat-icon> {{ 'Radar Jalisco' | translate }}
+        </a> -->
+        <mat-divider class="navigation-divider"></mat-divider>
 
-      <!-- <img class="img-legend" src="https://indices.jalisco.gob.mx/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=covid19:activosxmpiograf&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true;fontColor:0x00A6D9;fontSize:14;bgColor:0xB8E0EA;dpi:120" alt=""> -->
+        <button mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-def']" #tooltip="matTooltip"
+            matTooltip="Defunciones por municipio del estado de Jalisco"
+            matTooltipClass="tooltip3"
+            [matTooltipPosition]="'below'"
+            matTooltipHideDelay="0"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+            class="btn_covid19">
+            <div ><img class="iconovid19" style="margin-left: 0.3rem;" src="./assets/images/covid19_defunciones.svg" alt=""></div> &nbsp; {{ 'Defunciones' | translate }}
+        </button>
+        <mat-divider class="navigation-divider"></mat-divider>
+        <button mat-list-item [routerLinkActive]="'active'" [routerLink]="['/activos/', eventDatePicker+'-nac']" #tooltip="matTooltip"
+            matTooltip="Casos acumulados, activos y defunciones por municipio nacional"
+            matTooltipClass="tooltip4"
+            [matTooltipPosition]="'below'"
+            matTooltipHideDelay="0"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+            class="btn_covid19">
+            <div><img class="iconovid19" src="./assets/images/covid19_activos_nac.svg" alt=""></div> {{ 'Nacional' | translate }}
+        </button>
+        <mat-divider class="navigation-divider"></mat-divider>
+        <!-- <div class="version">
+            <p>Versión 1.0</p>
+        </div> -->
+        <!-- <mat-form-field>
+            <mat-label>Tooltip position</mat-label>
+          iv[formControl]="position">
+            <mat-option *ngFor="let positionOption of positionOptions" [value]="positionOption">
+                {{positionOption}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        
+        <!-- <div class="example-container" cdkScrollable>
+            <button mat-raised-button #tooltip="matTooltip"
+                    matTooltip="Info about the action"
+                    [matTooltipPosition]="position.value"
+                    matTooltipHideDelay="200"
+                    aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+                    class="example-button">
+            Action
+            </button>
+        </div> -->
 
-<!-- 
+        <!-- <img class="img-legend" src="https://indices.jalisco.gob.mx/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=covid19:activosxmpiograf&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true;fontColor:0x00A6D9;fontSize:14;bgColor:0xB8E0EA;dpi:120" alt=""> -->
+
+        <!-- 
         <p>parametro</p>
         {{parametro}}
         <div class="goku-comp">
@@ -91,4 +138,8 @@
             <mat-icon class="sidenav-icon">people</mat-icon> {{ 'Screen2' | translate }}
         </a> -->
     </mat-nav-list>
+    <div class="version">
+        <p>Versión 1.0</p>
+        <button class="nota" mat-raised-button (click)="openDialog()">Nota Metodológica</button>
+    </div>
 </div>

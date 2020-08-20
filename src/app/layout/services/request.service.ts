@@ -41,8 +41,6 @@ export class RequestService {
         // console.log(this.datePipeString);
     }
 
-
-    
     // petiiones mediante CQL_FILTER¿
     // 14039 cvegeo GDL
     //http://10.13.23.32:8080/geoserver / covid19 / ows? service=WFS&version=1.0.0&request=GetFeature&typeName=covid19:defacumedades&outputFormat=application/json&CQL_FILTER=cvegeo like '14039'
@@ -59,12 +57,9 @@ export class RequestService {
     dateNowService;
     dateNowServiceRes;
 
-    
-    // cqlfilter;
-
     date_now_def;
 
-        getDateNow(){
+    getDateNow(){
 
         var cvegeo = "&CQL_FILTER=cvegeo like '14039'"
 
@@ -74,7 +69,6 @@ export class RequestService {
 
         return this.http.get<any>(urlDate)
     }
-
     getActives(viewparams, cvegeo){
 
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
@@ -83,10 +77,6 @@ export class RequestService {
         let urlActives = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams + cqlfilter}`
-
-        // console.log('urlActives');
-        // console.log(urlActives);
-        
 
         return this.http.get<any>(urlActives)
     }
@@ -98,9 +88,6 @@ export class RequestService {
         let urlActives7 = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams7 + cqlfilter}`
-
-        // console.log('urlActives7');
-        // console.log(urlActives7);
         
         return this.http.get<any>(urlActives7)
     }
@@ -113,98 +100,83 @@ export class RequestService {
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams14 + cqlfilter}`
         
-        // console.log('urlActives14');
-        // console.log(urlActives14);
-        
         return this.http.get<any>(urlActives14)
     }
-    getAcumMun(layers, viewparams2, cvegeo){
+    getAcumMun_7_14(layers, viewparams2, cvegeo){
 
         layers += '_7_14'
-
-        var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-
-        viewparams2 = ('&VIEWPARAMS=aaaammdd:' + viewparams2);
-        // console.log(viewparams2);
         
 
+        var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
+        viewparams2 = ('&VIEWPARAMS=aaaammdd:' + viewparams2);
+        
         let getAcumMun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams2 + cqlfilter}`
-            // console.log('getAcumMun');
-            // console.log(getAcumMun);
+
         return this.http.get<any>(getAcumMun)
     }
-    getAcumMun7(layers, viewparams2, cvegeo){
+    getAcumMun_7_14_nac(layers, viewparams2, cvegeo){
 
         layers += '_7_14'
 
         var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-
         viewparams2 = ('&VIEWPARAMS=' + viewparams2);
-        // console.log(viewparams2);
-        
 
         let getAcumMun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams2 + cqlfilter}`
-            // console.log('getAcumMun7');
-            // console.log(getAcumMun);
+
+        return this.http.get<any>(getAcumMun)
+    }
+    getDefMun_7_14(layers, viewparams2, cvegeo){
+
+        layers += '_7_14'
+        var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
+        viewparams2 = ('&VIEWPARAMS=aaaammdd:' + viewparams2);
+
+        let getAcumMun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
+        + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
+        + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams2 + cqlfilter}`
+
         return this.http.get<any>(getAcumMun)
     }
     getActivesMun(layers, viewparams2, cvegeo){
 
         layers += '_7_14'
-
         var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-
         viewparams2 = ('&VIEWPARAMS=' + viewparams2);
-        // console.log(viewparams2);
-        
 
         let getActivesMun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams2 + cqlfilter}`
-            // console.log('getActives7Mun');
-            // console.log(getActives7Mun);
+
         return this.http.get<any>(getActivesMun)
     }
     getActives7Mun(layers, viewparams, cvegeo){
 
         layers += '_7_14'
-
         var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
-        // console.log(viewparams);
 
         let getActives7Mun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams + cqlfilter}`
-        // console.log('getActives7Mun');
-        // console.log(getActives7Mun);
-        
+
         return this.http.get<any>(getActives7Mun)
     }
     getActives14Mun(layers, viewparams, cvegeo){
 
         layers += '_7_14'
-
         var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
-        // console.log(viewparams);
 
         let getActives14Mun = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layers +'&' + environment.outputJson + viewparams + cqlfilter}`
-        
-        // console.log('getActives14Mun');
-        // console.log(getActives14Mun);
-        
+
         return this.http.get<any>(getActives14Mun)
     }
-
     getCvegeo(){
         return this.cvegeo;
     }
@@ -216,127 +188,66 @@ export class RequestService {
     }
     updateLayers(layer){
         this.layer = layer;
-        // console.log('this.layer');
-        // console.log(this.layer);
-        
-        // this.viewparams7 = param;
-        // this.viewparams14 = param;
-
     }
-
     acumEdades1(layer, viewparams, cvegeo){
-        // console.log('acumEdades1(layer, viewparams, cvegeo)');
 
         var cqlfilter
 
         if(cvegeo == undefined){
-        cqlfilter = "&CQL_FILTER=cvegeo like '14039'";
-        
-        // console.log('cqlfilter - if');
-        
+            cqlfilter = "&CQL_FILTER=cvegeo like '14039'";
         }else{
-        cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-        // console.log('cqlfilter - else');
+            cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
         }
 
         switch(layer) {
-            case 'act': { 
-                // console.log('Activos');
+            case 'act': {
                 layer = 'activosacumedades'
                 break;  
               } 
-            case 'acu': { 
-                // console.log('Acumulados');
+            case 'acu': {
                 layer = 'postivosacumedades'
                 break; 
             }
             case 'def': {
-                // console.log('Defunciones');
-
+                layer = 'defacumedades'
                 break; 
             } 
             case 'nac': {
-                // console.log('Activos Nacionales');
-
+                layer = 'defacumedadesnac'
                 break; 
             }
-            default: { 
-                // console.log('Activos x Municipio');
-                layer = 'activosacumedades'
+            default: {
+                // layer = 'defuncionesnacional'
                 break; 
             } 
             
         }
-
-        // console.log(layer);
-        // console.log(viewparams);
-        // console.log(cvegeo);
-        
 
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
     
         let urlAcumEdades1 = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + layer +'&' + environment.outputJson + viewparams + cqlfilter}`
-        
-        // console.log('urlAcumEdades1');
-        // console.log(urlAcumEdades1);
-        
+ 
         return this.http.get<any>(urlAcumEdades1)
-        
     }
-
-    // getActivesMunClick(urlActivesClick){
-    //   console.log('getActivesMunClick(urlActivesClick)');
-        
-    //   // var viewparams = '20200728'
-
-    //   // cvegeo = '14121';
-        
-    //   // console.log('cvegeo');
-    //   // console.log(cvegeo);
-    //   // var cqlfilter = (`&CQL_FILTER=cvegeo like '${cvegeo}'`);
-    //   // console.log('cqlfilter');
-    //   // console.log(cqlfilter);
-    //   // console.log('cvegeo');
-    //   // console.log(cvegeo);
-        
-        
-    //   // viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
-
-    //   // urlActivesClick = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
-    //   // + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
-    //   // + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams + cqlfilter}`
-    //   console.log('urlActivesClick');
-    //   console.log(urlActivesClick);
-        
-
-    //   return this.http.get<any>(urlActivesClick)
-    // }
     acumEdades(viewparams){
         
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
-        
         var cqlfilter = (`&CQL_FILTER=cvegeo like '${this.cvegeo}'`);
     
         let urlAcumEdades = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
         + 'typeName=' + environment.workspaceCovid + ':' + environment.activosacumedades +'&' + environment.outputJson + viewparams + cqlfilter}`
 
-        // console.log(urlAcumEdades);
-        // console.log('urlAcumEdades');
-        
         return this.http.get<any>(urlAcumEdades)
         
     }
-
     ///////////////// no se utiliza hasta ahorita /////////////////////////////////////////////////////////////////////////////////
     getData() {
         return this.dataObs$;
     }
-
     updateData(data: boolean) {
         this.dataObs$.next(data);
     }
-
 }

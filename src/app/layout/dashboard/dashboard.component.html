@@ -11,7 +11,13 @@
             <mat-divider class="navigation-divider"></mat-divider>
             <div class="padre2">
                 <div class="hijo21">
-                    <h3>Mujeres, hombres y no especificado</h3>
+                    <h3 *ngIf="layerNow == 'act'">Mujeres, hombres y no especificado</h3>
+                    <h3 *ngIf="layerNow == 'acu'">Mujeres, hombres y no especificado</h3>
+                    <h3 *ngIf="layerNow == 'def'">Mujeres, hombres y no especificado</h3>
+                    <div>
+                        <h3 *ngIf="layerNow == 'nac'">Acumulados</h3>
+                        <h3 *ngIf="layerNow == 'nac'">Total: {{tot_cases_mun_acum}}</h3>
+                    </div>
                     <div class="chart1">
                         <canvas baseChart
                             [data]="pieChartData"
@@ -24,7 +30,10 @@
                     </div>
                 </div>
                 <div class="hijo22">
-                    <h3>Activos a la fecha, 7 y 14 días atras</h3>
+                    <h3 *ngIf="layerNow == 'act'">Activos a la fecha, 7 y 14 días atras</h3>
+                    <h3 *ngIf="layerNow == 'acu'">Acumulados a la fecha, 7 y 14 días atras</h3>
+                    <h3 *ngIf="layerNow == 'def'">Defunciones a la fecha, 7 y 14 días atras</h3>
+                    <h3 *ngIf="layerNow == 'nac'">Activos a la fecha, 7 y 14 días atras</h3>
                     <div class="chart3">
                         <canvas baseChart 
                         [datasets]="lineChartData"
@@ -43,8 +52,8 @@
                 <div class="hijo31">
                     <h3 *ngIf="layerNow == 'act'">Activos acumulados por edades</h3>
                     <h3 *ngIf="layerNow == 'acu'">Casos acumulados por edades</h3>
-                    <h3 *ngIf="layerNow == 'def'">Defunciones acumulados por edades</h3>
-                    <h3 *ngIf="layerNow == 'nac'">Activos acumulados por edades</h3>
+                    <h3 *ngIf="layerNow == 'def'">Defunciones acumuladas por edades</h3>
+                    <h3 *ngIf="layerNow == 'nac'">Defunciones acumuladas por edades</h3>
                     <app-chartbar2020 [cvegeoDash]="cvegeo" [layerDash]="layerNow" ></app-chartbar2020>
                 </div>
             </div>

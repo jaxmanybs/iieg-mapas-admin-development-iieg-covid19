@@ -12,20 +12,15 @@ import { RequestService } from '../../services/request.service';
 })
 export class Chartbar2020Component implements OnChanges  {
 
-    // @Input() pob_sex_hm_2020: string;
     @Input() dateParamMapDash: string;
     @Input() cvegeoDash: string;
     @Input() layerDash: string;
     tot_edades
     
-
-    
     dateParamMap;
     date_covid_acum
 
-
     // grafica 2 bar ng2
-
     public barChartOptions: ChartOptions = {
         responsive: true,
         scales: {
@@ -59,29 +54,16 @@ export class Chartbar2020Component implements OnChanges  {
         private _router: Router,
         private _requestService: RequestService ) {
 
-            // 
-
             this._route.params.forEach(params => {
                 
-                // console.log('constructor');
-                // console.log('this.cvegeoDash');
-                // console.log(this.cvegeoDash);
-
                 var date_now = new Date(params.date.split('-')[0]);
                 var layer = this._router.url.split('-')[1];
 
-                
                 this.date_covid_acum   = formatDate(date_now,'yyyyMMdd', 'en-US');
-      
-                // console.log('this.cvegeoDash');
-                // console.log(this.cvegeoDash);
- 
+
                 this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
                     data.features.forEach(feature => {
-                        
-                        // console.log(feature.properties);
                         this.graficaChartsJs(feature.properties)
-                        
                     })
                 })
             })
@@ -89,65 +71,70 @@ export class Chartbar2020Component implements OnChanges  {
 
     ngOnChanges(changes: SimpleChanges): void {
 
-
-        // console.log('this.cvegeoDash');
-        // console.log(this.cvegeoDash);
-        // console.log(this.layer);
-
         var layer = this._router.url.split('-')[1];
-        // console.log('layer');
-        // console.log(layer);
+
+        switch(layer) {
+            case 'nac': {
+                layer = 'defacumedadesnac'
+    
+                this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
+                    if(data.numberReturned == 0){
+                        this.tot_edades = 'No hay casos';
+                        this.barChartData  = [];
+                    }else{
+                        this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
+                            data.features.forEach(feature => {
+                                this.tot_edades = feature.properties.activos;
+                                this.barChartData  = [
+                                    { data: [feature.properties.menor10, feature.properties.e1019, feature.properties.e2029, feature.properties.e3039, feature.properties.e4049, feature.properties.e5059, feature.properties.e6069, feature.properties.e7079, feature.properties.e8089, feature.properties.e9099, feature.properties.emayor100], label : 'Total acumulados' }
+                                ];
+                                this.barChartColors = [
+                                    {
+                                    backgroundColor: ['#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D'],
+                                    }
+                                ];
+                            })
+                        })
+                    }
+                })
+                break; 
+            }
+            default: {
+                this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
+                    if(data.numberReturned == 0){
+                        this.tot_edades = 'No hay casos';
+                        this.barChartData  = [];
         
+                    }else{
 
-
-        // switch(layer) {
-        //     case 'act': { 
-        //         console.log('Activos');
-        //         layer = 'activosacumedades'
-        //         break;  
-        //       } 
-        //     case 'acu': { 
-        //         console.log('Acumulados');
-        //         layer = 'postivosacumedades'
-        //         break; 
-        //     }
-        //     case 'def': {
-        //         console.log('Defunciones');
-
-        //         break; 
-        //     } 
-        //     case 'nac': {
-        //         console.log('Activos Nacionales');
-
-        //         break; 
-        //     }
-        //     default: { 
-        //         console.log('Activos x Municipio');
-
-        //         break; 
-        //     } 
-            
-        // }
-
-        this._requestService.acumEdades1(layer, this.date_covid_acum, this.cvegeoDash).subscribe(data => {
-            data.features.forEach(feature => {
-                
-                // console.log(feature.properties);
-                this.graficaChartsJs(feature.properties)
-                
-            })
-        })
+                        data.features.forEach(feature => {
+                            this.tot_edades = feature.properties.activos;
+                            this.barChartData  = [
+                                { data: [feature.properties.menor10, feature.properties.e1019, feature.properties.e2029, feature.properties.e3039, feature.properties.e4049, feature.properties.e5059, feature.properties.e6069, feature.properties.e7079, feature.properties.e8089, feature.properties.e9099, feature.properties.emayor100], label : 'Total acumulados' }
+                            ];
+                            if(layer == 'def'){
+                                this.barChartColors = [
+                                    {
+                                    backgroundColor: ['#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D','#4D4D4D'],
+                                    }
+                                ];
+                            }else{
+                                this.barChartColors = [
+                                    {
+                                        backgroundColor: ['#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9', '#00A6D9'],
+                                    }
+                                ];
+                            }
+                        })
+                    }
+                })
+                break; 
+            }
+        }
     }
-
-
     graficaChartsJs(json){
-        this.tot_edades = json.activos;
-        // console.log('json');
-        // console.log(json);
-        
         this.barChartData  = [
             { data: [json.menor10, json.e1019, json.e2029, json.e3039, json.e4049, json.e5059, json.e6069, json.e7079, json.e8089, json.e9099, json.emayor100], label : 'Total acumulados' }
         ];
     }
-
 }
