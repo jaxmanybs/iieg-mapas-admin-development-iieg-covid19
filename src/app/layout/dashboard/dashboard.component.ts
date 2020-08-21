@@ -198,8 +198,6 @@ export class DashboardComponent implements OnInit {
             this.cvegeo = this._requestService.getCvegeo();
 
             var date_now = new Date(params.date.split('-')[0]);
-
-            var date_now = new Date(params.date.split('-')[0]);
             var date_now7 = new Date(params.date.split('-')[0]);
             var date_now14 = new Date(params.date.split('-')[0]);
     

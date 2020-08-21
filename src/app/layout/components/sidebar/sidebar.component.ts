@@ -56,8 +56,9 @@ export class SidebarComponent implements OnInit {
         private miDatePipe: DatePipe,
         public dialog: MatDialog
     ){
-        this._requestService.getDateNow().subscribe(data => {
-            data.features.forEach(feature => {
+        this._requestService.getDate().subscribe(data => {                
+
+            data.features.forEach(feature => {                    
 
             var re = /Z/gi;
             var str = feature.properties.date_now;
@@ -74,7 +75,34 @@ export class SidebarComponent implements OnInit {
             this._router.navigate(['/activos', this.eventDatePicker+'-act']);
 
             })
+        }
+        ,
+        error => {
+            if(!<any>error.ok){
+                this._requestService.getDateNow().subscribe(data => {  
+
+                    data.features.forEach(feature => {                    
+        
+                    var re = /Z/gi;
+                    var str = feature.properties.date_now;
+                    this.date_now_covid = str.replace(re, "");
+        
+                    re = /-/gi; 
+                    str = this.date_now_covid;
+                    this.date_now_covid = str.replace(re, ", ");
+                    
+                    this.maxDate = new Date(this.date_now_covid);
+                    this.date = new FormControl(this.maxDate);
+        
+                    this.eventDatePicker = this.date_now_covid;
+                    this._router.navigate(['/activos', this.eventDatePicker+'-act']);
+        
+                    })
+                })
+            }
+            
         })
+
     }
 
     ngOnInit() {

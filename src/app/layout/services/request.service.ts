@@ -59,6 +59,31 @@ export class RequestService {
 
     date_now_def;
 
+    getDate(){
+
+        var date = new Date();
+        var viewparams   = formatDate(date,'yyyyMMdd', 'en-US');
+        
+        viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
+
+        var cvegeo = "&CQL_FILTER=cvegeo like '14039'"
+        var urlDate;
+
+        try{
+            urlDate = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
+            + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
+            + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams + cvegeo}`
+
+            return this.http.get<any>(urlDate)
+        }catch{
+
+            urlDate = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
+            + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
+            + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + cvegeo}`
+
+            return this.http.get<any>(urlDate)
+        }
+    }
     getDateNow(){
 
         var cvegeo = "&CQL_FILTER=cvegeo like '14039'"
