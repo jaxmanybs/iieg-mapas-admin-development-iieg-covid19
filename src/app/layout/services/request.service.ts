@@ -65,6 +65,7 @@ export class RequestService {
         var viewparams   = formatDate(date,'yyyyMMdd', 'en-US');
         
         viewparams = ('&VIEWPARAMS=aaaammdd:' + viewparams);
+        
 
         var cvegeo = "&CQL_FILTER=cvegeo like '14039'"
         var urlDate;
@@ -86,11 +87,17 @@ export class RequestService {
     }
     getDateNow(){
 
+        var date2 = new Date();
+        date2.setDate(date2.getDate()-1);
+        
+        var viewparams2   = formatDate(date2,'yyyyMMdd', 'en-US');
+        viewparams2 = ('&VIEWPARAMS=aaaammdd:' + viewparams2);
+
         var cvegeo = "&CQL_FILTER=cvegeo like '14039'"
 
         var urlDate = `${environment.geoserverApi + '/' + environment.workspaceCovid  + '/ows?' 
         + environment.wfsService + '&' + environment.version + '&' + environment.requestFeature + '&'
-        + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + cvegeo}`
+        + 'typeName=' + environment.workspaceCovid + ':' + environment.activosxmpiograf_7_14 +'&' + environment.outputJson + viewparams2 + cvegeo}`
 
         return this.http.get<any>(urlDate)
     }

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute, Params } from '@angular/router'
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router'
 import { RequestService } from './layout/services/request.service';
 import { DatePipe } from '@angular/common';
 
+import { filter } from 'rxjs/operators';
+
+declare var gtag;
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -16,6 +19,16 @@ export class AppComponent implements OnInit {
         private _router: Router,
         private _requestService: RequestService,
         private miDatePipe: DatePipe) {
+            const navEndEvents$ = this._router.events
+            .pipe(
+              filter(event => event instanceof NavigationEnd)
+            );
+        
+            navEndEvents$.subscribe((event: NavigationEnd) => {
+              gtag('config', 'UA-176781706-1', {
+                'page_path': event.urlAfterRedirects
+              });
+            });
         translate.setDefaultLang('en');
         
         // console.log('app');
